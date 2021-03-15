@@ -1,1 +1,2 @@
-This is a starter template for [Learn Next.js](https://nextjs.org/learn).
+# indocs
+Document Scanner App which runs in your browser 
