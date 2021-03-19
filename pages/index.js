@@ -1,23 +1,42 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 const Chat = (props) => {
   // let localVideoref = React.createRef();
-  const width = 533,
-    height = 400;
+  const canvasRef = useRef();
+  const videoRef = useRef();
+  const photoRef = useRef();
+  // const width = 700,
+  // height = 500;
   navigator.getMedia = navigator.getUserMedia;
   const [dims, setDims] = useState(0);
-  let video, canvas, context, photo;
+  const [trigger, setTrigger] = useState(false);
+  const [firstImage, setFirstImage] = useState(false);
+
+  const takeSnapshot = (canvas, context, video, photo) => {
+    setFirstImage(true);
+    resizeCanvas(canvas);
+    if (video) context.drawImage(video, 0, 0, dims.width, dims.height/2);
+    else console.log("no video");
+    if (photo) photo.setAttribute("src", canvas.toDataURL("image/png"));
+    else console.log("no photo");
+    console.log("click!");
+  };
 
   useEffect(() => {
-    setDims({ width: window.innerWidth, height: window.innerHeight });
-    canvas = document.getElementById("canvas");
-    context = canvas.getContext("2d");
-    React.getDOM;
-    video = document.getElementById("video");
-    photo = document.getElementById("output");
+    setDims({
+      width: window.innerWidth,
+      height: window.innerHeight,
+    });
+    const canvas = canvasRef.current;
+    const video = videoRef.current;
+    const photo = photoRef.current;
+    const context = canvas.getContext("2d");
+
     navigator.getUserMedia(
       {
-        video: true,
+        video: {
+          facingMode: "environment",
+        },
         audio: false,
       },
       (stream) => {
@@ -26,54 +45,59 @@ const Chat = (props) => {
       },
       (e) => console.log(e)
     );
-    // setDimensions({ width: window.innerWidth, height: window.innerHeight });
-    // setDimensions(0);
-  }, []);
 
-  const takeSnapshot = () => {
-    context.drawImage(video, 0, 0);
-    photo.setAttribute("src", canvas.toDataURL("image/png"));
+    const render = () => {
+      takeSnapshot(canvas, context, video, photo);
+    };
+    render();
+  }, [trigger]);
+
+  const resizeCanvas = (canvas) => {
+    canvas.width = dims.width;
+    canvas.height = dims.height;
   };
-  // const takeSnapshot = () => {
-  //   context.drawImage(video, 0, 0, dimensions.width / 2, dimensions.height / 2);
-  //   photo.setAttribute("src", canvas.toDataURL("image/png"));
-  // };
 
   return (
     <>
-      <div>
+      <div className="wrapper">
         <video
           id="video"
-          // ref={localVideoref}
+          className="mt-10"
+          ref={videoRef}
           autoPlay
           style={{ display: "inline-block", verticalAlign: "top" }}
-          // width={width}
-          // height={height}
-          // width={dimensions.width / 2}
-          // height={dimensions.height / 2}
         ></video>
-        <img
-          id="output"
-          style={{ display: "inline-block", verticalAlign: "top" }}
-        ></img>
+        <div
+          className="w-full flex justify-center"
+          style={
+            {
+              // position: "absolute",
+              // left: "50%",
+              // transform: "translate(-50%,0)",
+              // top: "70vh",
+            }
+          }
+        >
+          <button
+            id="capture"
+            className="rounded-full w-16 h-16 border-white border-2 my-5"
+            onClick={() => {
+              setTrigger((trigger) => !trigger);
+            }}
+          >
+            CAPTURE
+          </button>
+        </div>
+        {firstImage && (
+          <img
+            id="output"
+            className="mb-5"
+            ref={photoRef}
+            style={{ display: "inline-block", verticalAlign: "top" }}
+          ></img>
+        )}
       </div>
-      <canvas
-        id="canvas"
-        width={width}
-        height={height}
-        style={{ display: "none" }}
-      ></canvas>
-      <div
-        style={{
-          position: "absolute",
-          width: "100vw",
-          // left: "50%",
-        }}
-      >
-        <button id="capture" onClick={takeSnapshot}>
-          CAPTURE
-        </button>
-      </div>
+      <canvas id="canvas" ref={canvasRef} style={{ display: "none" }}></canvas>
     </>
   );
 };
