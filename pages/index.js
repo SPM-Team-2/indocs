@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 
-const Chat = (props) => {
-  // let localVideoref = React.createRef();
+
+const Camera = (props) => {
   const canvasRef = useRef();
   const videoRef = useRef();
   const photoRef = useRef();
-  // const width = 700,
-  // height = 500;
+
   navigator.getMedia = navigator.getUserMedia;
+
   const [dims, setDims] = useState(0);
   const [trigger, setTrigger] = useState(false);
   const [firstImage, setFirstImage] = useState(false);
@@ -15,11 +15,9 @@ const Chat = (props) => {
   const takeSnapshot = (canvas, context, video, photo) => {
     setFirstImage(true);
     resizeCanvas(canvas);
-    if (video) context.drawImage(video, 0, 0, dims.width, dims.height/2);
-    else console.log("no video");
+    if (video)
+      context.drawImage(video, 0, 0, video.offsetWidth, video.offsetHeight);
     if (photo) photo.setAttribute("src", canvas.toDataURL("image/png"));
-    else console.log("no photo");
-    console.log("click!");
   };
 
   useEffect(() => {
@@ -67,17 +65,7 @@ const Chat = (props) => {
           autoPlay
           style={{ display: "inline-block", verticalAlign: "top" }}
         ></video>
-        <div
-          className="w-full flex justify-center"
-          style={
-            {
-              // position: "absolute",
-              // left: "50%",
-              // transform: "translate(-50%,0)",
-              // top: "70vh",
-            }
-          }
-        >
+        <div className="w-full flex justify-center">
           <button
             id="capture"
             className="rounded-full w-16 h-16 border-white border-2 my-5"
@@ -96,10 +84,14 @@ const Chat = (props) => {
             style={{ display: "inline-block", verticalAlign: "top" }}
           ></img>
         )}
+        <canvas
+          id="canvas"
+          ref={canvasRef}
+          style={{ display: "none" }}
+        ></canvas>
       </div>
-      <canvas id="canvas" ref={canvasRef} style={{ display: "none" }}></canvas>
     </>
   );
 };
 
-export default Chat;
+export default Camera;
