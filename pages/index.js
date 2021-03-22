@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import OcrIcon from "../assets/ocr-icon";
+import Link from "next/link";
 
 const Camera = (props) => {
   const canvasRef = useRef();
@@ -83,14 +84,16 @@ const Camera = (props) => {
             }}
           ></button>
           {firstImage && (
-            <img
-              className="h-full w-auto"
-              // style={{
-              //   width: dims.width / 6,
-              //   height: dims.height / 6,
-              // }}
-              ref={photoRef}
-            />
+            <Link href="/gallery">
+              <img
+                className="h-full w-auto"
+                // style={{
+                //   width: dims.width / 6,
+                //   height: dims.height / 6,
+                // }}
+                ref={photoRef}
+              />
+            </Link>
           )}
         </div>
         <canvas
