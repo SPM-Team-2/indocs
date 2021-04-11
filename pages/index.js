@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import OcrIcon from "../assets/ocr-icon";
-import Link from "next/link";
+import Footer from "../components/footer";
 
 const Camera = (props) => {
   const canvasRef = useRef();
@@ -10,10 +9,15 @@ const Camera = (props) => {
   navigator.getMedia = navigator.getUserMedia;
 
   const [dims, setDims] = useState(0);
-  const [trigger, setTrigger] = useState(false);
+  // const [trigger, setTrigger] = useState(false);
   const [firstImage, setFirstImage] = useState(false);
 
-  const takeSnapshot = (canvas, context, video, photo) => {
+  const takeSnapshot = () => {
+    const canvas = canvasRef.current;
+    const video = videoRef.current;
+    const photo = photoRef.current;
+    const context = canvas.getContext("2d");
+
     setFirstImage(true);
     resizeCanvas(canvas, video);
     if (video)
@@ -22,37 +26,65 @@ const Camera = (props) => {
   };
 
   async function getMedia() {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({
+    // try {
+    // const stream = await navigator.mediaDevices.getUserMedia({
+    //   video: {
+    //     facingMode: "environment",
+    //   },
+    //   audio: false,
+    // });
+
+    navigator.mediaDevices
+      .getUserMedia({
         video: {
           facingMode: "environment",
         },
         audio: false,
-      });
+      })
+      .then((stream) => {
+        // const track = stream.getVideoTracks()[0];
+        video.srcObject = stream;
+      })
+      .catch((err) => console.error("Stream access error: " + err));
 
-      video.srcObject = stream;
-    } catch (err) {
-      console.log("Stream access error: ", err);
-    }
+    // video.srcObject = stream;
+    // } catch (err) {
+    //   console.log("Stream access error: ", err);
+    //   setSee(toString(err));
+    // }
   }
 
+  // useEffect(() => {
+  //   const devices = await navigator.mediaDevices?.enumerateDevices();
+  //   const videoDevices = devices?.filter(
+  //     (device) => device.kind === "videoinput"
+  //   );
+
+  //   console.log(Navigator);
+  //   const entries = Object.entries(navigator);
+  //   console.log(entries);
+  //   setSee(devices[0]?.kind);
+  //   const options = videoDevices?.map((videoDevice) => {
+  //     return `<option value="${videoDevice.deviceId}">${videoDevice.label}</option>`;
+  //   });
+  //   console.log(dims);
+  //   cameraOptions.innerHTML = options.join("");
+  // }, []);
+
   useEffect(() => {
-    const canvas = canvasRef.current;
-    const video = videoRef.current;
-    const photo = photoRef.current;
-    const context = canvas.getContext("2d");
+    getMedia();
     setDims({
       width: video.videoWidth,
       height: video.videoHeight,
     });
+    // const render = () => {
+    // };
+    // render();
+  }, []);
 
-    getMedia();
-
-    const render = () => {
-      takeSnapshot(canvas, context, video, photo);
-    };
-    render();
-  }, [trigger]);
+  // useEffect(() => {
+  //   takeSnapshot(canvas, context, video, photo);
+  // }, []);
 
   const resizeCanvas = (canvas, video) => {
     canvas.width = video.videoWidth;
@@ -62,40 +94,21 @@ const Camera = (props) => {
   return (
     <>
       <div className="wrapper">
-        <video
-          id="video"
-          className="mt-10"
-          ref={videoRef}
-          autoPlay
-          style={{ display: "inline-block", verticalAlign: "top" }}
-        ></video>
-        <div className="w-full flex justify-between items-center mt-5 h-20 px-2">
-          {firstImage && (
-            <OcrIcon width={dims.width / 8} height={dims.height / 8} />
-          )}
-          <button
-            id="capture"
-            className="absolute left-0 right-0 mx-auto rounded-full w-16 h-16 border-black border-8 text-white bg-white p-2"
-            style={{
-              boxShadow: "0 0 0 2px white",
-            }}
-            onClick={() => {
-              setTrigger((trigger) => !trigger);
-            }}
-          ></button>
-          {firstImage && (
-            <Link href="/gallery">
-              <img
-                className="h-full w-auto"
-                // style={{
-                //   width: dims.width / 6,
-                //   height: dims.height / 6,
-                // }}
-                ref={photoRef}
-              />
-            </Link>
-          )}
+        <div className="mt-10">
+          <video
+            id="video"
+            ref={videoRef}
+            autoPlay
+            style={{ display: "inline-block", verticalAlign: "top" }}
+          ></video>
         </div>
+        <Footer
+          firstImage={firstImage}
+          dims={dims}
+          photoRef={photoRef}
+          takeSnapshot={takeSnapshot}
+          // setTrigger={setTrigger}
+        />
         <canvas
           id="canvas"
           ref={canvasRef}
