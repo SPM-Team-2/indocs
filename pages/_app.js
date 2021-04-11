@@ -9,7 +9,7 @@ export default function MyApp({ Component, pageProps }) {
 
   return (
     <StoreProvider store={store}>
-      <Component {...pageProps} />;
+      <Component {...pageProps} />
     </StoreProvider>
   );
 }

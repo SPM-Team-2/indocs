@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Footer from "../components/footer";
 import OcrIcon from "../assets/ocr-icon";
 import Link from "next/link";
+import { useStoreActions } from "easy-peasy";
 
 const Camera = (props) => {
   const canvasRef = useRef();
@@ -13,6 +14,7 @@ const Camera = (props) => {
   const [dims, setDims] = useState(0);
   // const [trigger, setTrigger] = useState(false);
   const [firstImage, setFirstImage] = useState(false);
+  const { addImage } = useStoreActions((action) => action);
 
   const takeSnapshot = () => {
     console.log("took snapshot");
@@ -31,6 +33,7 @@ const Camera = (props) => {
     //   console.log(canvas);
     // }
     photo?.setAttribute("src", canvas.toDataURL("image/png"));
+    addImage(canvas.toDataURL("image/png"));
   };
 
   async function getMedia() {
