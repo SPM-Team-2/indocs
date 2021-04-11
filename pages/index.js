@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Footer from "../components/footer";
+import OcrIcon from "../assets/ocr-icon";
+import Link from "next/link";
 
 const Camera = (props) => {
   const canvasRef = useRef();
@@ -13,6 +15,7 @@ const Camera = (props) => {
   const [firstImage, setFirstImage] = useState(false);
 
   const takeSnapshot = () => {
+    console.log("took snapshot");
     const canvas = canvasRef.current;
     const video = videoRef.current;
     const photo = photoRef.current;
@@ -20,9 +23,14 @@ const Camera = (props) => {
 
     setFirstImage(true);
     resizeCanvas(canvas, video);
-    if (video)
+    if (video.videoWidth)
       context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
-    if (photo) photo.setAttribute("src", canvas.toDataURL("image/png"));
+    // else {
+    //   context.fillStyle = "#FF0000";
+    //   context.fillRect(0, 0, 150, 75);
+    //   console.log(canvas);
+    // }
+    photo?.setAttribute("src", canvas.toDataURL("image/png"));
   };
 
   async function getMedia() {
@@ -72,11 +80,16 @@ const Camera = (props) => {
   // }, []);
 
   useEffect(() => {
-    getMedia();
-    setDims({
-      width: video.videoWidth,
-      height: video.videoHeight,
-    });
+    getMedia().then(
+      setTimeout(() => {
+        setDims({
+          width: video.videoWidth,
+          height: video.videoHeight,
+        });
+        takeSnapshot();
+      }, 1000)
+    );
+    console.log(video.videoWidth);
     // const render = () => {
     // };
     // render();
@@ -91,6 +104,9 @@ const Camera = (props) => {
     canvas.height = video.videoHeight;
   };
 
+  console.log("rendering", firstImage);
+  console.log(dims);
+
   return (
     <>
       <div className="wrapper">
@@ -102,13 +118,35 @@ const Camera = (props) => {
             style={{ display: "inline-block", verticalAlign: "top" }}
           ></video>
         </div>
-        <Footer
+        {/* <Footer
           firstImage={firstImage}
           dims={dims}
           photoRef={photoRef}
           takeSnapshot={takeSnapshot}
           // setTrigger={setTrigger}
-        />
+        /> */}
+        <div className="w-full flex justify-between items-center mt-5 h-20 px-2">
+          {firstImage && (
+            <OcrIcon width={dims.width / 8} height={dims.height / 8} />
+          )}
+          <button
+            id="capture"
+            className="absolute left-0 right-0 mx-auto rounded-full w-16 h-16 border-black border-8 text-white bg-white p-2"
+            style={{
+              boxShadow: "0 0 0 2px white",
+            }}
+            onClick={() => {
+              takeSnapshot();
+              //   setTrigger((trigger) => !trigger);
+            }}
+          ></button>
+          {firstImage && (
+            <Link href="/gallery">
+              {/* <Photo /> */}
+              <img className="h-full w-auto cursor-pointer" ref={photoRef} />
+            </Link>
+          )}
+        </div>
         <canvas
           id="canvas"
           ref={canvasRef}
