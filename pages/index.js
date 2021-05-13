@@ -51,11 +51,11 @@ const Camera = (props) => {
           width: video.videoWidth,
           height: video.videoHeight,
         });
-        // takeSnapshot();
       }, 1000)
     );
 
-    if (images.length > 0) setLoadFooter(true);
+    if (images.length > 0)
+      photoRef.current.setAttribute("src", images[images.length - 1]);
   }, []);
 
   const resizeCanvas = (canvas, video) => {
@@ -75,12 +75,13 @@ const Camera = (props) => {
           ></video>
         </div>
         <div className="w-full flex justify-between items-center mt-5 h-20 px-2">
-          {images.length > 0 && (
+          {/* {images.length > 0 && (
             <OcrIcon
               width={dims ? dims.width / 8 : "80%"}
               height={dims ? dims.height / 8 : "80%"}
             />
-          )}
+          )} */}
+          <div className="w-3/5"></div>
           <button
             id="capture"
             className="text-gray-900 absolute left-0 right-0 mx-auto rounded-full w-16 h-16 border-black border-8 bg-white p-2"
@@ -91,12 +92,14 @@ const Camera = (props) => {
               takeSnapshot();
               //   setTrigger((trigger) => !trigger);
             }}
-          >Hi</button>
-          {images.length > 0 && (
+          ></button>
+          {images.length > 0 ? (
             <Link href="/gallery">
               {/* <Photo /> */}
               <img className="h-full w-auto" ref={photoRef} />
             </Link>
+          ) : (
+            <div className="text-white">No image bruh</div>
           )}
         </div>
         <canvas
