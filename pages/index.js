@@ -82,7 +82,7 @@ const Camera = (props) => {
             style={{ display: "inline-block", verticalAlign: "top" }}
           ></video>
         </div>
-        <div className="w-full flex justify-between items-center mt-5 h-20 px-2">
+        <div className="w-full flex justify-between items-center mt-5 h-20 px-2 overflow-visible">
           <div className="w-3/5"></div>
           <motion.button
             initial={{ padding: "2rem" }}
@@ -118,7 +118,7 @@ const Camera = (props) => {
                 transition={{
                   duration: 0.3,
                 }}
-                className="h-full w-auto"
+                className="h-full w-auto max-h-xl"
                 ref={photoRef}
               />
             </Link>

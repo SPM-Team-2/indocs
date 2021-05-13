@@ -1,8 +1,8 @@
 import { action, createStore, persist } from "easy-peasy";
 
 const store = createStore(
-  // persist({
-  {
+  persist({
+  // {
     images: [],
     addImage: action((state, payload) => {
       state.images.push(payload);
@@ -10,8 +10,8 @@ const store = createStore(
     removeImage: action((state, payload) => {
       state.images.splice(payload, 1);
     }),
-  }
-  // })
+  // }
+  })
 );
 
 export default store;
