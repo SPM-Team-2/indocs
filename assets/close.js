@@ -1,3 +1,4 @@
+import { useStoreActions } from "easy-peasy";
 import React from "react";
 
 function Close() {
