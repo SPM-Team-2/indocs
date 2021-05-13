@@ -51,14 +51,6 @@ const Camera = (props) => {
 
   useEffect(() => {
     getMedia();
-    // getMedia().then(
-    //   setTimeout(() => {
-    //     setDims({
-    //       width: video.videoWidth,
-    //       height: video.videoHeight,
-    //     });
-    //   }, 1000)
-    // );
 
     if (images.length > 1 && !init) {
       photoRef.current.setAttribute("src", images[images.length - 1]);
@@ -90,7 +82,7 @@ const Camera = (props) => {
               padding: init ? "0.5rem" : "2rem",
             }}
             id="capture"
-            className="text-gray-900 absolute left-0 right-0 mx-auto rounded-full w-16 h-16 border-black border-8 bg-white p-2"
+            className="text-gray-900 absolute left-0 right-0 mx-auto rounded-full w-16 h-16 border-black border-8 bg-white p-2 overflow-hidden"
             style={{
               boxShadow: "0 0 0 2px white",
             }}
@@ -105,20 +97,23 @@ const Camera = (props) => {
               } font-extrabold`}
             >
               {/* <div className={`w-14 transform  font-extrabold`}> */}
-              {init ? images.length-1 : "START"}
+              {init ? images.length - 1 : "START"}
             </motion.div>
           </motion.button>
           {images.length > 0 && (
             <Link href="/gallery">
               {/* <Photo /> */}
               <motion.img
+                layoutId="gallery"
                 animate={{
                   scale: pop ? [1, 1.4, 1] : 1,
                 }}
                 transition={{
                   duration: 0.3,
                 }}
-                className="h-full w-auto max-h-xl"
+                className={`h-full w-auto max-h-xl ${
+                  images.length > 1 && "border-2 border-gray-200"
+                } p-1`}
                 ref={photoRef}
               />
             </Link>
