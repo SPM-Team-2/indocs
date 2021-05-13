@@ -83,7 +83,7 @@ const Camera = (props) => {
           )}
           <button
             id="capture"
-            className="absolute left-0 right-0 mx-auto rounded-full w-16 h-16 border-black border-8 text-white bg-white p-2"
+            className="text-gray-900 absolute left-0 right-0 mx-auto rounded-full w-16 h-16 border-black border-8 text-white bg-white p-2"
             style={{
               boxShadow: "0 0 0 2px white",
             }}
@@ -91,7 +91,7 @@ const Camera = (props) => {
               takeSnapshot();
               //   setTrigger((trigger) => !trigger);
             }}
-          ></button>
+          >Hi</button>
           {images.length > 0 && (
             <Link href="/gallery">
               {/* <Photo /> */}
