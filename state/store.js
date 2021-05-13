@@ -8,8 +8,6 @@ const store = createStore(
       state.images.push(payload);
     }),
     removeImage: action((state, payload) => {
-      console.log("removed element", payload);
-      // console.log(state.images.splice(payload, 1));
       state.images.splice(payload, 1);
     }),
   }
