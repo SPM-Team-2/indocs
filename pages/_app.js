@@ -10,9 +10,11 @@ export default function MyApp({ Component, pageProps }) {
 
   return (
     <StoreProvider store={store}>
-      <AnimateSharedLayout type="crossfade">
-        <Component {...pageProps} />
-      </AnimateSharedLayout>
+      <AnimatePresence exitBeforeEnter>
+        <AnimateSharedLayout type="crossfade">
+          <Component {...pageProps} />
+        </AnimateSharedLayout>
+      </AnimatePresence>
     </StoreProvider>
   );
 }

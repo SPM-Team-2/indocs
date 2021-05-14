@@ -65,7 +65,7 @@ const Camera = (props) => {
 
   return (
     <>
-      <div className="wrapper">
+      <motion.div key="wrapper" className="wrapper">
         <div className="mt-10">
           <video
             id="video"
@@ -124,7 +124,7 @@ const Camera = (props) => {
           ref={canvasRef}
           style={{ display: "none" }}
         ></canvas>
-      </div>
+      </motion.div>
     </>
   );
 };
