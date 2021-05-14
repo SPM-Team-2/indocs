@@ -50,7 +50,7 @@ const Gallery = () => {
                 <img className="py-3 px-2" src={dataURL} />
                 <div
                   className="absolute top-[85%] left-[82%] w-[20%] bg-gray-400 rounded-full p-5 sm:p-7"
-                  onClick={() => removeImage(index)}
+                  onClick={() => removeImage(index + 1)}
                 >
                   <Close imageIndex={index} />
                 </div>
