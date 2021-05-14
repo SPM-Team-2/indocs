@@ -1,4 +1,5 @@
 import { StoreProvider } from "easy-peasy";
+import { AnimatePresence, AnimateSharedLayout } from "framer-motion";
 import App, { Container } from "next/app";
 import store from "../state/store";
 // import "tailwindcss/tailwind.css";
@@ -9,7 +10,11 @@ export default function MyApp({ Component, pageProps }) {
 
   return (
     <StoreProvider store={store}>
-      <Component {...pageProps} />
+      <AnimatePresence exitBeforeEnter>
+        <AnimateSharedLayout type="crossfade">
+          <Component {...pageProps} />
+        </AnimateSharedLayout>
+      </AnimatePresence>
     </StoreProvider>
   );
 }

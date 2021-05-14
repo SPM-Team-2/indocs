@@ -10,7 +10,7 @@
 
 html,
 body {
-  background-color: rgb(220,90,0);
+  background-color: black;
 }
 
 .wrapper {
@@ -25,3 +25,20 @@ body {
   text-align: center;
   /* height: 100vh; */
 }
+
+/* 
+.center-close {
+  top: 70%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.dim-down {
+  filter: brightness(50%);
+  transition: 0.3s;
+}
+
+.dim-up {
+  filter: brightness(100%);
+  transition: 0.3s;
+} */

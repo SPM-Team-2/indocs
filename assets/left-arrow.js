@@ -4,11 +4,9 @@ function LeftArrowIcon() {
   return (
     <svg
       id="Layer"
-      height="40"
-      width="40"
+      width="1.5rem"
       viewBox="0 0 64 64"
       fill="white"
-      className="absolute mt-2 ml-2"
     //   style={{
     //     backgroundColor: "rgba(0,0,0,0)",
     //   }}

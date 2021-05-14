@@ -13,9 +13,10 @@ const Camera = (props) => {
   navigator.getMedia = navigator.getUserMedia;
 
   const [dims, setDims] = useState(0);
-  const [loadFooter, setLoadFooter] = useState(false);
+  const [init, setInit] = useState(false);
   const { images } = useStoreState((state) => state);
   const { addImage } = useStoreActions((action) => action);
+  const [pop, setPop] = useState(false);
 
   const takeSnapshot = () => {
     const canvas = canvasRef.current;
@@ -28,6 +29,10 @@ const Camera = (props) => {
       context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
     photo?.setAttribute("src", canvas.toDataURL("image/png"));
     addImage(canvas.toDataURL("image/png"));
+    setPop(true);
+    setTimeout(() => {
+      setPop(false);
+    }, 500);
   };
 
   async function getMedia() {
@@ -45,17 +50,12 @@ const Camera = (props) => {
   }
 
   useEffect(() => {
-    getMedia().then(
-      setTimeout(() => {
-        setDims({
-          width: video.videoWidth,
-          height: video.videoHeight,
-        });
-        // takeSnapshot();
-      }, 1000)
-    );
+    getMedia();
 
-    if (images.length > 0) setLoadFooter(true);
+    if (images.length > 1 && !init) {
+      photoRef.current.setAttribute("src", images[images.length - 1]);
+      setInit(true);
+    }
   }, []);
 
   const resizeCanvas = (canvas, video) => {
@@ -65,7 +65,7 @@ const Camera = (props) => {
 
   return (
     <>
-      <div className="wrapper">
+      <motion.div key="wrapper" className="wrapper">
         <div className="mt-10">
           <video
             id="video"
@@ -74,28 +74,48 @@ const Camera = (props) => {
             style={{ display: "inline-block", verticalAlign: "top" }}
           ></video>
         </div>
-        <div className="w-full flex justify-between items-center mt-5 h-20 px-2">
-          {images.length > 0 && (
-            <OcrIcon
-              width={dims ? dims.width / 8 : "80%"}
-              height={dims ? dims.height / 8 : "80%"}
-            />
-          )}
-          <button
+        <div className="w-full flex justify-between items-center mt-5 h-20 px-2 overflow-visible">
+          <div className="w-3/5"></div>
+          <motion.button
+            initial={{ padding: "2rem" }}
+            animate={{
+              padding: init ? "0.5rem" : "2rem",
+            }}
             id="capture"
-            className="text-gray-900 absolute left-0 right-0 mx-auto rounded-full w-16 h-16 border-black border-8 bg-white p-2"
+            className="text-gray-900 absolute left-0 right-0 mx-auto rounded-full w-16 h-16 border-black border-8 bg-white p-2 overflow-hidden"
             style={{
               boxShadow: "0 0 0 2px white",
             }}
             onClick={() => {
+              setInit(true);
               takeSnapshot();
-              //   setTrigger((trigger) => !trigger);
             }}
-          >Hi</button>
+          >
+            <motion.div
+              className={`w-14 transform  ${
+                init ? "-translate-x-3" : "-translate-x-7 -translate-y-3"
+              } font-extrabold`}
+            >
+              {/* <div className={`w-14 transform  font-extrabold`}> */}
+              {init ? images.length - 1 : "START"}
+            </motion.div>
+          </motion.button>
           {images.length > 0 && (
             <Link href="/gallery">
               {/* <Photo /> */}
-              <img className="h-full w-auto" ref={photoRef} />
+              <motion.img
+                layoutId="gallery"
+                animate={{
+                  scale: pop ? [1, 1.4, 1] : 1,
+                }}
+                transition={{
+                  duration: 0.3,
+                }}
+                className={`h-full w-auto max-h-xl ${
+                  images.length > 1 && "border-2 border-gray-200"
+                } p-1`}
+                ref={photoRef}
+              />
             </Link>
           )}
         </div>
@@ -104,7 +124,7 @@ const Camera = (props) => {
           ref={canvasRef}
           style={{ display: "none" }}
         ></canvas>
-      </div>
+      </motion.div>
     </>
   );
 };
