@@ -4,6 +4,9 @@ import OcrIcon from "../assets/ocr-icon";
 import Link from "next/link";
 import { useStoreActions, useStoreState } from "easy-peasy";
 import { motion } from "framer-motion";
+import firebase from '../Handlers/firebaseHandler'
+
+firebase()
 
 const Camera = (props) => {
   const canvasRef = useRef();
