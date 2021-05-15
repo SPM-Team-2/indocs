@@ -1,17 +1,32 @@
 import { useStoreActions, useStoreState } from "easy-peasy";
 import { AnimatePresence, motion } from "framer-motion";
-import { useRouter } from "next/dist/client/router";
 import Link from "next/link";
 import Close from "../assets/close";
 import LeftArrowIcon from "../assets/left-arrow";
-import PhotoArt from "../assets/photo-art";
+import EmptyGalleryIcon from "../assets/emptyGalleryIcon";
+import generatePdf from "../utils/generatePdf";
 
 const Gallery = () => {
   const { images } = useStoreState((state) => state);
   const { removeImage } = useStoreActions((action) => action);
 
+  const handleGeneratePdfFromImages = () => {
+    generatePdf(images);
+    cleanUpUploadedImages();
+  };
+
+  const cleanUpUploadedImages = () => {
+    uploadedImages.forEach((image) => {
+      // The URL.revokeObjectURL() releases an existing object URL
+      // which was previously created by URL.createObjectURL().
+      // It lets the browser know not to keep the reference to the file any longer.
+      URL.revokeObjectURL(image.src);
+    });
+  };
+
   return (
     <div>
+      {/* BACK BUTTON */}
       <Link href="/">
         <a>
           <motion.div
@@ -32,6 +47,7 @@ const Gallery = () => {
           </motion.div>
         </a>
       </Link>
+      {/* Images in buffer */}
       <AnimatePresence exitBeforeEnter>
         {images.length > 1 ? (
           <motion.div
@@ -49,7 +65,7 @@ const Gallery = () => {
               >
                 <img className="py-3 px-2" src={dataURL} />
                 <div
-                  className="absolute top-[85%] left-[82%] w-[20%] bg-gray-400 rounded-full p-5 sm:p-7"
+                  className="absolute bottom-0 right-0 w-[20%] bg-gray-400 rounded-full p-5 sm:p-7"
                   onClick={() => removeImage(index + 1)}
                 >
                   <Close imageIndex={index} />
@@ -59,7 +75,7 @@ const Gallery = () => {
           </motion.div>
         ) : (
           <div className="h-screen flex justify-center items-center flex-col">
-            <PhotoArt />
+            <EmptyGalleryIcon />
             <div className="text-gray-300 text-center mt-3 px-3 sm:text-lg text-sm">
               Oops! looks like there are no images in your document right now,
               go back and click a few
@@ -67,6 +83,13 @@ const Gallery = () => {
           </div>
         )}
       </AnimatePresence>
+      <button
+        key="pdf"
+        className="text-white border-2 border-white m-3 p-1"
+        onClick={handleGeneratePdfFromImages}
+      >
+        GENERATE PDF
+      </button>
     </div>
   );
 };

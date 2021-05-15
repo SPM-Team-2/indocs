@@ -10,6 +10,7 @@
   "dependencies": {
     "easy-peasy": "^5.0.3",
     "framer-motion": "^4.0.0",
+    "jspdf": "^2.3.1",
     "next": "^10.0.0",
     "react": "17.0.1",
     "react-dom": "17.0.1"
