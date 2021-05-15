@@ -4,9 +4,13 @@ import OcrIcon from "../assets/ocr-icon";
 import Link from "next/link";
 import { useStoreActions, useStoreState } from "easy-peasy";
 import { motion } from "framer-motion";
+<<<<<<< HEAD
 import firebase from '../Handlers/firebaseHandler'
 
 firebase()
+=======
+import UploadIcon from "../assets/upload";
+>>>>>>> 62f0727d045d7b6a9e79f77114dcb5f606861571
 
 const Camera = (props) => {
   const canvasRef = useRef();
@@ -15,7 +19,6 @@ const Camera = (props) => {
 
   navigator.getMedia = navigator.getUserMedia;
 
-  const [dims, setDims] = useState(0);
   const [init, setInit] = useState(false);
   const { images } = useStoreState((state) => state);
   const { addImage } = useStoreActions((action) => action);
@@ -36,6 +39,17 @@ const Camera = (props) => {
     setTimeout(() => {
       setPop(false);
     }, 500);
+  };
+
+  const getUploadedImg = (img) => {
+    const canvas = canvasRef.current;
+    const video = videoRef.current;
+    const photo = photoRef.current;
+    const context = canvas.getContext("2d");
+
+    if (img) context.drawImage(img, 0, 0, canvas.width, canvas.height);
+    photo?.setAttribute("src", canvas.toDataURL("image/png"));
+    addImage(canvas.toDataURL("image/png"));
   };
 
   async function getMedia() {
@@ -66,6 +80,35 @@ const Camera = (props) => {
     canvas.height = video.videoHeight;
   };
 
+  // Each image is loaded and an object URL is created.
+  const fileToImageURL = (file) => {
+    return new Promise((resolve, reject) => {
+      const image = new Image(file.type);
+
+      image.onload = () => {
+        resolve(image);
+      };
+
+      image.onerror = () => {
+        reject(new Error("Failed to convert File to Image"));
+      };
+
+      image.src = URL.createObjectURL(file);
+    });
+  };
+
+  const handleImageUpload = (e) => {
+    const fileList = e.target.files;
+    const fileArray = fileList ? Array.from(fileList) : [];
+
+    // Uploaded images are read and the app state is updated.
+    const fileToImagePromises = fileArray.map(fileToImageURL);
+    Promise.all(fileToImagePromises).then((res) => {
+      // res.map((val) => console.log(val.height));
+      res.map(getUploadedImg);
+    });
+  };
+
   return (
     <>
       <motion.div key="wrapper" className="wrapper">
@@ -78,7 +121,21 @@ const Camera = (props) => {
           ></video>
         </div>
         <div className="w-full flex justify-between items-center mt-5 h-20 px-2 overflow-visible">
-          <div className="w-3/5"></div>
+          {/* <div className="w-3/5"></div> */}
+          <div className="w-14">
+            <label>
+              <UploadIcon />
+              <input
+                id="file-input"
+                type="file"
+                accept="image/*"
+                onChange={handleImageUpload}
+                // Native file input is hidden only for styling purposes
+                style={{ display: "none" }}
+                multiple
+              />
+            </label>
+          </div>
           <motion.button
             initial={{ padding: "2rem" }}
             animate={{
@@ -114,7 +171,7 @@ const Camera = (props) => {
                 transition={{
                   duration: 0.3,
                 }}
-                className={`h-full w-auto max-h-xl ${
+                className={`h-full w-auto max-w-xs max-h-xl ${
                   images.length > 1 && "border-2 border-gray-200"
                 } p-1`}
                 ref={photoRef}
