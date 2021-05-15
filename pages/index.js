@@ -2,13 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useStoreActions, useStoreState } from "easy-peasy";
 import { motion } from "framer-motion";
-<<<<<<< HEAD
-import firebase from '../Handlers/firebaseHandler'
-
-firebase()
-=======
 import UploadIcon from "../assets/upload";
->>>>>>> 62f0727d045d7b6a9e79f77114dcb5f606861571
 
 const Camera = (props) => {
   const canvasRef = useRef();
