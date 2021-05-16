@@ -54,7 +54,7 @@ const generatePdf = (images) => {
   // therefore the first default page can be removed.
   doc.deletePage(1);
 
-  images.forEach((image) => {
+  images.slice(1).forEach((image) => {
     const imageDimensions = imageDimensionsOnA4({
       width: image.width,
       height: image.height,
@@ -63,7 +63,7 @@ const generatePdf = (images) => {
     doc.addPage();
     doc.addImage(
       image.src,
-      image.imageType,
+    //   image.imageType,
       // Images are vertically and horizontally centered on the page.
       (A4_PAPER_DIMENSIONS.width - imageDimensions.width) / 2,
       (A4_PAPER_DIMENSIONS.height - imageDimensions.height) / 2,

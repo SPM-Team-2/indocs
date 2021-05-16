@@ -16,6 +16,9 @@ const store = createStore(
     removeImage: action((state, payload) => {
       state.images.splice(payload, 1);
     }),
+    removeAllImages: action((state, payload) => {
+      state.images = [];
+    }),
   }
   // })
 );

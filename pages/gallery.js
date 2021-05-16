@@ -3,25 +3,30 @@ import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import Close from "../assets/close";
 import LeftArrowIcon from "../assets/left-arrow";
-import EmptyGalleryIcon from "../assets/emptyGalleryIcon";
+import EmptyGalleryIcon from "../assets/empty-gallery-icon";
 import generatePdf from "../utils/generatePdf";
+import { useState } from "react";
+import PdfDoneIcon from "../assets/pdf-done-icon";
 
 const Gallery = () => {
   const { images } = useStoreState((state) => state);
-  const { removeImage } = useStoreActions((action) => action);
+  const { removeImage, removeAllImages } = useStoreActions((action) => action);
+  const [pdfGenrerated, setPdfGenrated] = useState(false);
 
   const handleGeneratePdfFromImages = () => {
     generatePdf(images);
+    setPdfGenrated(true);
     cleanUpUploadedImages();
   };
 
   const cleanUpUploadedImages = () => {
-    uploadedImages.forEach((image) => {
+    images.forEach((image) => {
       // The URL.revokeObjectURL() releases an existing object URL
       // which was previously created by URL.createObjectURL().
       // It lets the browser know not to keep the reference to the file any longer.
       URL.revokeObjectURL(image.src);
     });
+    removeAllImages();
   };
 
   return (
@@ -54,7 +59,7 @@ const Gallery = () => {
             className="flex mt-12 flex-wrap flex-shrink"
             layoutId="gallery"
           >
-            {images.slice(1).map((dataURL, index) => (
+            {images.slice(1).map(({ src }, index) => (
               <motion.div
                 key={index}
                 exit={{
@@ -63,7 +68,7 @@ const Gallery = () => {
                 }}
                 className="relative border-2 border-gray-400 mx-2 overflow-hidden"
               >
-                <img className="py-3 px-2" src={dataURL} />
+                <img className="py-3 px-2" src={src} />
                 <div
                   className="absolute bottom-0 right-0 w-[20%] bg-gray-400 rounded-full p-5 sm:p-7"
                   onClick={() => removeImage(index + 1)}
@@ -74,12 +79,27 @@ const Gallery = () => {
             ))}
           </motion.div>
         ) : (
-          <div className="h-screen flex justify-center items-center flex-col">
-            <EmptyGalleryIcon />
-            <div className="text-gray-300 text-center mt-3 px-3 sm:text-lg text-sm">
-              Oops! looks like there are no images in your document right now,
-              go back and click a few
-            </div>
+          <div className="h-[90vh] flex justify-center items-center flex-col">
+            {pdfGenrerated ? (
+              <>
+                <PdfDoneIcon />
+                <div className="text-gray-300 text-center mt-3 px-3 sm:text-lg text-sm overflow-visible">
+                  <span className="text-xl font-bold">Done!</span>
+                  <br /> Your pdf should have opened in a new tab <br />{" "}
+                  <div className="border-b-[1px] border-gray-300 pb-2">
+                    Make sure you save it before closing the tab
+                  </div>
+                </div>
+              </>
+            ) : (
+              <>
+                <EmptyGalleryIcon />
+                <div className="text-gray-300 text-center mt-3 px-3 sm:text-lg text-sm">
+                  Oops! looks like there are no images in your document right
+                  now, go back and click a few
+                </div>
+              </>
+            )}
           </div>
         )}
       </AnimatePresence>
