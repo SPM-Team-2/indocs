@@ -18,6 +18,7 @@
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-firebaseui": "^5.0.2",
+    "react-input-slider": "^6.0.0",
     "swiper": "^6.6.1"
   },
   "devDependencies": {

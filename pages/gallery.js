@@ -5,7 +5,7 @@ import Close from "../assets/close";
 import LeftArrowIcon from "../assets/left-arrow";
 import EmptyGalleryIcon from "../assets/empty-gallery-icon";
 import generatePdf from "../utils/generatePdf";
-import { createRef, useEffect, useRef, useState } from "react";
+import { createRef, useEffect, useReducer, useRef, useState } from "react";
 import PdfDoneIcon from "../assets/pdf-done-icon";
 // Import Swiper React components
 import SwiperCore, { Navigation, Thumbs } from "swiper/core";
@@ -14,6 +14,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/swiper.min.css";
 import "swiper/components/navigation/navigation.min.css";
 import "swiper/components/thumbs/thumbs.min.css";
+import FilterSlider from "../components/filterSlider";
 
 SwiperCore.use([Navigation, Thumbs]);
 
@@ -27,6 +28,10 @@ const Gallery = () => {
   const [pdfGenerated, setPdfGenrated] = useState(false);
   const [thumbsSwiper, setThumbsSwiper] = useState();
   const [activeSlide, setActiveSlide] = useState();
+  const [brightness, setBrightness] = useState(100);
+  const [contrast, setContrast] = useState(100);
+  const [grayscale, setGrayscale] = useState(0);
+  const [isEditing, setIsEditing] = useState(false);
   const imageRefs = useRef([]);
 
   if (imageRefs.current.length !== images.length) {
@@ -49,13 +54,16 @@ const Gallery = () => {
     removeAllImages();
   };
 
-  const setFilterToImages = () => {
+  const setFilterToImage = (image) => {
     const canvas = canvasRef.current;
     const context = canvas.getContext("2d");
     const _image = imageRefs.current;
 
     console.log(imageRefs);
-    images.map((image, i) => {
+
+    canvas.width = image.width;
+    canvas.height = image.height;
+    context.filter = images.map((image, i) => {
       canvas.width = image.width;
       canvas.height = image.height;
       context.filter = "contrast(1.4) sepia(1) drop-shadow(-9px 9px 3px #e81)";
@@ -119,41 +127,26 @@ const Gallery = () => {
               <SwiperSlide key={src}>
                 <img
                   ref={imageRefs.current[index]}
-                  className={`py-3 px-2 filter`}
+                  style={{
+                    filter: `brightness(${brightness}%) contrast(${contrast}%) grayscale(${grayscale}%)`,
+                  }}
+                  className={`py-3 px-2`}
                   src={src}
                 />
               </SwiperSlide>
             ))}
           </Swiper>
 
-          <div className="flex justify-center">
-            {images.length > 0 && (
-              <button
-                key="pdf"
-                className="text-white border-2 border-white m-3 p-1"
-                onClick={handleGeneratePdfFromImages}
-              >
-                GENERATE PDF
-              </button>
-            )}
-            <button
-              className="text-white border-2 border-white m-3 p-1"
-              onClick={() => removeImage(activeSlide)}
-            >
-              Delete
-              {/* <Close imageIndex={index} /> */}
-            </button>
-          </div>
-
           {/* SMALL CAROUSEL */}
           <Swiper
             onSwiper={setThumbsSwiper}
-            spaceBetween={1}
+            spaceBetween={10}
             slidesPerView={4}
             // freeMode={true}
             watchSlidesVisibility={true}
             watchSlidesProgress={true}
             className="mySwiper"
+            allowTouchMove={false}
           >
             {images.map(({ src }, index) => (
               <SwiperSlide key={src}>
@@ -165,24 +158,56 @@ const Gallery = () => {
               </SwiperSlide>
             ))}
           </Swiper>
-          {/* {images.map(({ src }, index) => (
-              <motion.div
-                // key={index}
-                className="border-2 border-gray-400 mx-2"
-              >
-                <img
-                  ref={imageRefs.current[index]}
-                  className={`py-3 px-2 filter`}
-                  src={src}
-                />
-                <div
-                  className="absolute bottom-0 right-0 w-[20%] bg-gray-400 rounded-full p-5 sm:p-7"
-                  onClick={() => removeImage(index)}
+
+          {/* BUTTONS */}
+          {!isEditing && (
+            <div className="flex justify-center">
+              {images.length > 0 && (
+                <button
+                  key="pdf"
+                  className="text-white border-2 border-white m-3 p-1"
+                  onClick={handleGeneratePdfFromImages}
                 >
-                  <Close imageIndex={index} />
-                </div>
-              </motion.div>
-            ))} */}
+                  GENERATE PDF
+                </button>
+              )}
+              <button
+                className="text-white border-2 border-white m-3 p-1"
+                onClick={() => removeImage(activeSlide)}
+              >
+                Delete
+                {/* <Close imageIndex={index} /> */}
+              </button>
+              <button
+                className="text-white border-2 border-white m-3 p-1"
+                onClick={() => setIsEditing(true)}
+              >
+                Edit
+                {/* <Close imageIndex={index} /> */}
+              </button>
+            </div>
+          )}
+
+          {/* SLIDERS */}
+          {isEditing && (
+            <div className="grid grid-cols-12 grid-rows-3 items-center w-[90%] justify-center">
+              <div className="col-span-10 row-span-1 my-[0.01rem]">
+                <FilterSlider valueSetter={setBrightness} />
+              </div>
+              <div className="col-span-10 row-span-1 my-[0.01rem]">
+                <FilterSlider valueSetter={setContrast} />
+              </div>
+              <div className="col-span-10 row-span-1 my-[0.01rem]">
+                <FilterSlider valueSetter={setGrayscale} />
+              </div>
+              <div
+                onClick={() => setIsEditing(false)}
+                className="col-start-11 col-span-2 row-span-full row-start-1 justify-self-center self-center align-middle"
+              >
+                <Close width={50} />
+              </div>
+            </div>
+          )}
         </motion.div>
       ) : (
         <div className="h-[90vh] flex justify-center items-center flex-col">
