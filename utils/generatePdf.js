@@ -54,7 +54,7 @@ const generatePdf = (images) => {
   // therefore the first default page can be removed.
   doc.deletePage(1);
 
-  images.slice(1).forEach((image) => {
+  images.forEach((image) => {
     const imageDimensions = imageDimensionsOnA4({
       width: image.width,
       height: image.height,

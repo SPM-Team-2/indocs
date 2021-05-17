@@ -82,7 +82,6 @@ const Camera = () => {
     // Uploaded images are read and the app state is updated.
     const fileToImagePromises = fileArray.map(fileToImageURL);
     Promise.all(fileToImagePromises).then((res) => {
-      // console.log(res[0].src);
       res.map((image) =>
         addImage({
           src: image.src,
