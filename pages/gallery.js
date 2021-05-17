@@ -7,14 +7,26 @@ import EmptyGalleryIcon from "../assets/empty-gallery-icon";
 import generatePdf from "../utils/generatePdf";
 import { createRef, useEffect, useRef, useState } from "react";
 import PdfDoneIcon from "../assets/pdf-done-icon";
+// Import Swiper React components
+import SwiperCore, { Navigation, Thumbs } from "swiper/core";
+import { Swiper, SwiperSlide } from "swiper/react";
+
+import "swiper/swiper.min.css";
+import "swiper/components/navigation/navigation.min.css";
+import "swiper/components/thumbs/thumbs.min.css";
+
+SwiperCore.use([Navigation, Thumbs]);
 
 const Gallery = () => {
   const canvasRef = useRef();
+  const swiperRef = useRef();
   const { images } = useStoreState((state) => state);
   const { addImage, removeImage, removeAllImages } = useStoreActions(
     (action) => action
   );
   const [pdfGenerated, setPdfGenrated] = useState(false);
+  const [thumbsSwiper, setThumbsSwiper] = useState();
+  const [activeSlide, setActiveSlide] = useState();
   const imageRefs = useRef([]);
 
   if (imageRefs.current.length !== images.length) {
@@ -84,30 +96,93 @@ const Gallery = () => {
           </motion.div>
         </a>
       </Link>
-      {/* Images in buffer */}
       {images.length > 0 ? (
         <motion.div
-          className="flex mt-12 flex-wrap flex-shrink"
+          className="flex mt-12 flex-wrap flex-shrink justify-center"
           layoutId="gallery"
         >
-          {images.map(({ src }, index) => (
-            <motion.div
-              key={index}
-              className="relative border-2 border-gray-400 mx-2 overflow-hidden"
-            >
-              <img
-                ref={imageRefs.current[index]}
-                className={`py-3 px-2 filter`}
-                src={src}
-              />
-              <div
-                className="absolute bottom-0 right-0 w-[20%] bg-gray-400 rounded-full p-5 sm:p-7"
-                onClick={() => removeImage(index)}
+          {/* MAIN CAROUSEL */}
+          <Swiper
+            style={{
+              "--swiper-navigation-color": "#fff",
+              "--swiper-pagination-color": "#fff",
+            }}
+            onSlideChange={(e) => setActiveSlide(e.activeIndex)}
+            // loop={true}
+            spaceBetween={10}
+            navigation={true}
+            thumbs={{ swiper: thumbsSwiper }}
+            className="mySwiper2"
+            ref={swiperRef}
+          >
+            {images.map(({ src }, index) => (
+              <SwiperSlide key={src}>
+                <img
+                  ref={imageRefs.current[index]}
+                  className={`py-3 px-2 filter`}
+                  src={src}
+                />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+
+          <div className="flex justify-center">
+            {images.length > 0 && (
+              <button
+                key="pdf"
+                className="text-white border-2 border-white m-3 p-1"
+                onClick={handleGeneratePdfFromImages}
               >
-                <Close imageIndex={index} />
-              </div>
-            </motion.div>
-          ))}
+                GENERATE PDF
+              </button>
+            )}
+            <button
+              className="text-white border-2 border-white m-3 p-1"
+              onClick={() => removeImage(activeSlide)}
+            >
+              Delete
+              {/* <Close imageIndex={index} /> */}
+            </button>
+          </div>
+
+          {/* SMALL CAROUSEL */}
+          <Swiper
+            onSwiper={setThumbsSwiper}
+            spaceBetween={1}
+            slidesPerView={4}
+            // freeMode={true}
+            watchSlidesVisibility={true}
+            watchSlidesProgress={true}
+            className="mySwiper"
+          >
+            {images.map(({ src }, index) => (
+              <SwiperSlide key={src}>
+                <img
+                  ref={imageRefs.current[index]}
+                  className={`py-3 px-2 filter`}
+                  src={src}
+                />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+          {/* {images.map(({ src }, index) => (
+              <motion.div
+                // key={index}
+                className="border-2 border-gray-400 mx-2"
+              >
+                <img
+                  ref={imageRefs.current[index]}
+                  className={`py-3 px-2 filter`}
+                  src={src}
+                />
+                <div
+                  className="absolute bottom-0 right-0 w-[20%] bg-gray-400 rounded-full p-5 sm:p-7"
+                  onClick={() => removeImage(index)}
+                >
+                  <Close imageIndex={index} />
+                </div>
+              </motion.div>
+            ))} */}
         </motion.div>
       ) : (
         <div className="h-[90vh] flex justify-center items-center flex-col">
@@ -133,24 +208,7 @@ const Gallery = () => {
           )}
         </div>
       )}
-      <div className="flex justify-center">
-        {images.length > 0 && (
-          <button
-            key="pdf"
-            className="text-white border-2 border-white m-3 p-1"
-            onClick={handleGeneratePdfFromImages}
-          >
-            GENERATE PDF
-          </button>
-        )}
-        {/* <button
-          className="text-white border-2 border-white m-3 p-1"
-          onClick={setFilterToImages}
-        >
-          Set Filter
-        </button> */}
-      </div>
-      <canvas ref={canvasRef}></canvas>
+      <canvas className="w-full" ref={canvasRef}></canvas>
     </div>
   );
 };
