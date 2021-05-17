@@ -6,7 +6,6 @@ import "firebase/auth";
 import { setUserCookie } from "../Handlers/userCookies";
 import { mapUserData } from "../Handlers/mapUserData";
 
-
 initFirebase();
 
 const FirebaseAuthConfig = {
@@ -48,4 +47,4 @@ const FirebaseAuth = () => {
   );
 };
 
-export default FirebaseAuth
+export default FirebaseAuth;
