@@ -11,7 +11,7 @@ import PdfDoneIcon from "../assets/pdf-done-icon";
 const Gallery = () => {
   const { images } = useStoreState((state) => state);
   const { removeImage, removeAllImages } = useStoreActions((action) => action);
-  const [pdfGenrerated, setPdfGenrated] = useState(false);
+  const [pdfGenerated, setPdfGenrated] = useState(false);
 
   const handleGeneratePdfFromImages = () => {
     generatePdf(images);
@@ -21,9 +21,6 @@ const Gallery = () => {
 
   const cleanUpUploadedImages = () => {
     images.forEach((image) => {
-      // The URL.revokeObjectURL() releases an existing object URL
-      // which was previously created by URL.createObjectURL().
-      // It lets the browser know not to keep the reference to the file any longer.
       URL.revokeObjectURL(image.src);
     });
     removeAllImages();
@@ -53,13 +50,13 @@ const Gallery = () => {
         </a>
       </Link>
       {/* Images in buffer */}
-      <AnimatePresence exitBeforeEnter>
-        {images.length > 1 ? (
+      <AnimatePresence>
+        {images.length > 0 ? (
           <motion.div
             className="flex mt-12 flex-wrap flex-shrink"
             layoutId="gallery"
           >
-            {images.slice(1).map(({ src }, index) => (
+            {images.map(({ src }, index) => (
               <motion.div
                 key={index}
                 exit={{
@@ -71,7 +68,7 @@ const Gallery = () => {
                 <img className="py-3 px-2" src={src} />
                 <div
                   className="absolute bottom-0 right-0 w-[20%] bg-gray-400 rounded-full p-5 sm:p-7"
-                  onClick={() => removeImage(index + 1)}
+                  onClick={() => removeImage(index)}
                 >
                   <Close imageIndex={index} />
                 </div>
@@ -80,7 +77,7 @@ const Gallery = () => {
           </motion.div>
         ) : (
           <div className="h-[90vh] flex justify-center items-center flex-col">
-            {pdfGenrerated ? (
+            {pdfGenerated ? (
               <>
                 <PdfDoneIcon />
                 <div className="text-gray-300 text-center mt-3 px-3 sm:text-lg text-sm overflow-visible">
@@ -102,14 +99,16 @@ const Gallery = () => {
             )}
           </div>
         )}
+        {images.length > 0 && (
+          <button
+            key="pdf"
+            className="text-white border-2 border-white m-3 p-1 text-center"
+            onClick={handleGeneratePdfFromImages}
+          >
+            GENERATE PDF
+          </button>
+        )}
       </AnimatePresence>
-      <button
-        key="pdf"
-        className="text-white border-2 border-white m-3 p-1"
-        onClick={handleGeneratePdfFromImages}
-      >
-        GENERATE PDF
-      </button>
     </div>
   );
 };

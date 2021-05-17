@@ -5,15 +5,18 @@ import { motion } from "framer-motion";
 import UploadIcon from "../assets/upload";
 import { getMedia, resizeCanvas } from "../utils/camera-functions";
 
-const Camera = (props) => {
+const Camera = () => {
+  // * References
   const canvasRef = useRef();
   const videoRef = useRef();
   const photoRef = useRef();
-  const Refs = { canvasRef, videoRef, photoRef };
 
-  const [init, setInit] = useState(false);
+  // * Store state and functions
   const { images } = useStoreState((state) => state);
   const { addImage } = useStoreActions((action) => action);
+
+  // * Local state
+  const [init, setInit] = useState(false);
   const [pop, setPop] = useState(false);
 
   const takeSnapshot = () => {
@@ -23,9 +26,9 @@ const Camera = (props) => {
     const context = canvas.getContext("2d");
 
     resizeCanvas(canvas, video);
+
     if (video.videoWidth)
       context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
-    // photo?.setAttribute("src", canvas.toDataURL("image/png"));
 
     canvas.toBlob((blob) => {
       const url = URL.createObjectURL(blob);
@@ -36,12 +39,6 @@ const Camera = (props) => {
         height: video.videoHeight,
       });
     });
-    // photo?.setAttribute(
-    //   "src",
-    //   canvas.toBlob((blob) => blob)
-    // );
-    // addImage(canvas.toDataURL("image/png"));
-    // addImage(canvas.toBlob((blob) => blob));
     setPop(true);
     setTimeout(() => {
       setPop(false);
@@ -53,33 +50,11 @@ const Camera = (props) => {
   useEffect(() => {
     getMedia();
 
-    if (images.length > 1 && !init) {
+    if (images.length > 0 && !init) {
       photoRef.current.setAttribute("src", images[images.length - 1].src);
       setInit(true);
     }
   }, []);
-
-  // class CustomImage extends Image {
-  //   constructor() {
-  //     super();
-  //   }
-
-  //   // `imageType` is a required input for generating a PDF for an image.
-  //   get imageType() {
-  //     return this.mimeType.split("/")[1];
-  //   }
-  // }
-
-  // const getUploadedImg = (img) => {
-  //   const canvas = canvasRef.current;
-  //   const video = videoRef.current;
-  //   const photo = photoRef.current;
-  //   const context = canvas.getContext("2d");
-
-  //   if (img) context.drawImage(img, 0, 0, canvas.width, canvas.height);
-  //   // photo?.setAttribute("src", canvas.toDataURL("image/png"));
-  //   // addImage(canvas.toDataURL("image/png"));
-  // };
 
   // Each image is loaded and an object URL is created.
   const fileToImageURL = (file) => {
@@ -97,8 +72,6 @@ const Camera = (props) => {
 
       image.src = URL.createObjectURL(file);
       photo?.setAttribute("src", image.src);
-      // addImage(image.src);
-      // console.log(image.src);
     });
   };
 
@@ -168,27 +141,25 @@ const Camera = (props) => {
               } font-extrabold`}
             >
               {/* <div className={`w-14 transform  font-extrabold`}> */}
-              {init ? images.length - 1 : "START"}
+              {init ? images.length : "START"}
             </motion.div>
           </motion.button>
-          {images.length > 0 && (
-            <Link href="/gallery">
-              {/* <Photo /> */}
-              <motion.img
-                layoutId="gallery"
-                animate={{
-                  scale: pop ? [1, 1.4, 1] : 1,
-                }}
-                transition={{
-                  duration: 0.3,
-                }}
-                className={`w-16 h-[80%] max-w-xs max-h-xl ${
-                  images.length > 1 && "border-2 border-gray-200"
-                } p-1`}
-                ref={photoRef}
-              />
-            </Link>
-          )}
+          {/* {images.length > 0 && ( */}
+          <Link href="/gallery">
+            {/* <Photo /> */}
+            <motion.img
+              layoutId="gallery"
+              animate={{
+                scale: pop ? [1, 1.4, 1] : 1,
+              }}
+              transition={{
+                duration: 0.3,
+              }}
+              className={`w-16 h-[80%] max-w-xs max-h-xl border-none bg-gray-900`}
+              ref={photoRef}
+            />
+          </Link>
+          {/* )} */}
         </div>
         <canvas
           id="canvas"
