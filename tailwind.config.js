@@ -5,7 +5,16 @@ module.exports = {
   purge: ["./pages/**/*.js", "./components/**/*.js"],
   darkMode: false, // or 'media' or 'class'
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: "#141821",
+        slightWhite: "#F2F4FF",
+      },
+      fontFamily: {
+        nunito: ["Nunito", "sans-serif"],
+        lobster: ["Lobster", "Nunito"],
+      },
+    },
   },
   variants: {
     extend: {},

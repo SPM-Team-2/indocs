@@ -82,9 +82,9 @@ const Gallery = () => {
   };
 
   return (
-    <div>
+    <div className="h-screen bg-black">
       {/* BACK BUTTON */}
-      <Link href="/">
+      <Link href="/scanner">
         <a>
           <motion.div
             key="back-button"
@@ -190,14 +190,17 @@ const Gallery = () => {
 
           {/* SLIDERS */}
           {isEditing && (
-            <div className="grid grid-cols-12 grid-rows-3 items-center w-[90%] justify-center">
-              <div className="col-span-10 row-span-1 my-[0.01rem]">
+            <div className="grid grid-cols-12 grid-rows-3 items-center w-full justify-center">
+              <div className="col-span-2 text-white ml-2">Brightness</div>
+              <div className="col-start-4 col-span-7 row-span-1 my-[0.01rem] ml-2">
                 <FilterSlider valueSetter={setBrightness} />
               </div>
-              <div className="col-span-10 row-span-1 my-[0.01rem]">
+              <div className="col-span-2 text-white ml-2">Contrast</div>
+              <div className="col-start-4 col-span-7 row-span-1 my-[0.01rem] ml-2">
                 <FilterSlider valueSetter={setContrast} />
               </div>
-              <div className="col-span-10 row-span-1 my-[0.01rem]">
+              <div className="col-span-2 text-white ml-2">Grayscale</div>
+              <div className="col-start-4 col-span-7 row-span-1 my-[0.01rem] ml-2">
                 <FilterSlider valueSetter={setGrayscale} />
               </div>
               <div
