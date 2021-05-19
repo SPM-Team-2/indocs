@@ -1,5 +1,3 @@
-import { useStoreActions } from "easy-peasy";
-
 async function getMedia() {
   navigator.mediaDevices
     .getUserMedia({

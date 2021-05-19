@@ -4,6 +4,8 @@ import { useStoreActions, useStoreState } from "easy-peasy";
 import { motion } from "framer-motion";
 import UploadIcon from "../assets/upload";
 import { getMedia, resizeCanvas } from "../utils/camera-functions";
+import useBlobImage from "../utils/blob";
+// import { invertFilter } from "../utils/image-processing";
 
 const Camera = () => {
   // * References
@@ -19,6 +21,8 @@ const Camera = () => {
   const [init, setInit] = useState(false);
   const [pop, setPop] = useState(false);
 
+  const { toBlob } = useBlobImage();
+
   const takeSnapshot = () => {
     const canvas = canvasRef.current;
     const video = videoRef.current;
@@ -30,15 +34,7 @@ const Camera = () => {
     if (video.videoWidth)
       context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
 
-    canvas.toBlob((blob) => {
-      const url = URL.createObjectURL(blob);
-      photo?.setAttribute("src", url);
-      addImage({
-        src: url,
-        width: video.videoWidth,
-        height: video.videoHeight,
-      });
-    });
+    toBlob(canvas, photo, video.videoWidth, video.videoHeight);
     setPop(true);
     setTimeout(() => {
       setPop(false);
@@ -94,7 +90,7 @@ const Camera = () => {
 
   return (
     <>
-      <motion.div key="wrapper" className="wrapper h-screen">
+      <motion.div key="wrapper" className="wrapper h-screen overflow-hidden">
         <div className="mt-10">
           <video
             id="video"
@@ -140,7 +136,8 @@ const Camera = () => {
               } font-extrabold`}
             >
               {/* <div className={`w-14 transform  font-extrabold`}> */}
-              {init ? images.length : "START"}
+              {/* {images.length > 0 ? images.length : ""} */}
+              {init ? images.length : ""}
             </motion.div>
           </motion.button>
           {/* {images.length > 0 && ( */}
