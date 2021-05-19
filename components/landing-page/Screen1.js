@@ -6,7 +6,7 @@ const Screen1 = () => {
     <div className="grid h-screen w-full">
       <div className="flex items-center justify-center flex-col">
         <div className="text-5xl text-center mb-7 z-10">InDocs</div>
-        <div className="w-1/4 md:w-20 z-10">
+        <div className="w-1/4 sm:w-40 z-10">
           <Logo />
         </div>
         <div className="text-2xl text-center my-5 font-extralight opacity-70 z-10">
