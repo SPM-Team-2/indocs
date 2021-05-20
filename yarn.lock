@@ -1439,6 +1439,11 @@ caniuse-lite@^1.0.30001196, caniuse-lite@^1.0.30001202, caniuse-lite@^1.0.300012
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001228.tgz#bfdc5942cd3326fa51ee0b42fbef4da9d492a7fa"
   integrity sha512-QQmLOGJ3DEgokHbMSA8cj2a+geXqmnpyOFT0lhQV6P3/YOJvGDEwoedcwxEQ30gJIwIIunHIicunJ2rzK5gB2A==
 
+canvas-filters@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/canvas-filters/-/canvas-filters-1.0.1.tgz#c5ca8295be1c564764928c7ba15ed4a55c537215"
+  integrity sha512-kD5l/sezvOD8P1ZySonxpgUMLzt6y+LhcUcpEXMnOI0Yvi3fv/7lB4xSdAt/jWRUhm5A6t4MTMCNoxaxsyEmXQ==
+
 canvg@^3.0.6:
   version "3.0.7"
   resolved "https://registry.yarnpkg.com/canvg/-/canvg-3.0.7.tgz#e45b87a64116af906917f7cad57d370ea372d682"
@@ -3813,6 +3818,13 @@ react-is@16.13.1, react-is@^16.8.1:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
+
+react-jimp@^1.1.7:
+  version "1.1.7"
+  resolved "https://registry.yarnpkg.com/react-jimp/-/react-jimp-1.1.7.tgz#d04dad7421646c39ad60566996a301408a30a970"
+  integrity sha512-12Q4P9UukPCAJv8DbTC9o5Obp9IVbN/Szv6ht4PLlPPS0X4U45PoAfz72xNJp4ppzjFMrBZFMdxT7XCC92xOUg==
+  dependencies:
+    jimp "^0.16.1"
 
 react-refresh@0.8.3:
   version "0.8.3"

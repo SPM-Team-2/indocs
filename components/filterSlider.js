@@ -2,17 +2,18 @@ import { useState } from "react";
 import Slider from "react-input-slider";
 
 const FilterSlider = ({ valueSetter }) => {
-  const [sliderVal, setSliderVal] = useState(100);
+  const [sliderVal, setSliderVal] = useState(0);
 
   return (
     <Slider
       axis="x"
       x={sliderVal}
-      xmin={0}
-      xmax={200}
+      xmin={-100}
+      xmax={100}
+      xstep={1}
       onChange={({ x }) => {
         setSliderVal(x);
-        valueSetter(x);
+        valueSetter(x.toPrecision(2));
       }}
       className="slider"
       styles={{

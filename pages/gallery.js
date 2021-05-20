@@ -1,11 +1,11 @@
 import { useStoreActions, useStoreState } from "easy-peasy";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import Link from "next/link";
 import Close from "../assets/close";
 import LeftArrowIcon from "../assets/left-arrow";
 import EmptyGalleryIcon from "../assets/empty-gallery-icon";
 import generatePdf from "../utils/generatePdf";
-import { createRef, useEffect, useReducer, useRef, useState } from "react";
+import { createRef, useRef, useState } from "react";
 import PdfDoneIcon from "../assets/pdf-done-icon";
 // Import Swiper React components
 import SwiperCore, { Navigation, Thumbs } from "swiper/core";
@@ -15,22 +15,26 @@ import "swiper/swiper.min.css";
 import "swiper/components/navigation/navigation.min.css";
 import "swiper/components/thumbs/thumbs.min.css";
 import FilterSlider from "../components/filterSlider";
+import ImageFilters from "canvas-filters";
+
+// import { Jimage } from "react-jimp";
 
 SwiperCore.use([Navigation, Thumbs]);
 
 const Gallery = () => {
   const canvasRef = useRef();
+  const photoRef = useRef();
   const swiperRef = useRef();
   const { images } = useStoreState((state) => state);
-  const { addImage, removeImage, removeAllImages } = useStoreActions(
+  const { removeImage, removeAllImages, replaceImage } = useStoreActions(
     (action) => action
   );
   const [pdfGenerated, setPdfGenrated] = useState(false);
   const [thumbsSwiper, setThumbsSwiper] = useState();
-  const [activeSlide, setActiveSlide] = useState();
-  const [brightness, setBrightness] = useState(100);
-  const [contrast, setContrast] = useState(100);
-  const [grayscale, setGrayscale] = useState(0);
+  const [activeSlide, setActiveSlide] = useState(0);
+  const [brightness, setBrightness] = useState(0);
+  const [contrast, setContrast] = useState(0);
+  const [grayscale, setGrayscale] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const imageRefs = useRef([]);
 
@@ -57,28 +61,38 @@ const Gallery = () => {
   const setFilterToImage = (image) => {
     const canvas = canvasRef.current;
     const context = canvas.getContext("2d");
-    const _image = imageRefs.current;
+    const photo = photoRef.current;
 
-    console.log(imageRefs);
+    photo?.setAttribute("src", image.src);
 
     canvas.width = image.width;
     canvas.height = image.height;
-    context.filter = images.map((image, i) => {
-      canvas.width = image.width;
-      canvas.height = image.height;
-      context.filter = "contrast(1.4) sepia(1) drop-shadow(-9px 9px 3px #e81)";
-      context.drawImage(_image[i].current, 0, 0);
+    context.drawImage(photo, 0, 0);
+    const ImageData = context.getImageData(0, 0, image.width, image.height);
+    const filtered = grayscale
+      ? ImageFilters.GrayScale(
+          ImageFilters.BrightnessContrastPhotoshop(
+            ImageData,
+            parseFloat(brightness),
+            parseFloat(contrast)
+          )
+        )
+      : ImageFilters.BrightnessContrastPhotoshop(
+          ImageData,
+          parseFloat(brightness),
+          parseFloat(contrast)
+        );
+    context.putImageData(filtered, 0, 0);
 
-      canvas.toBlob((blob) => {
-        const url = URL.createObjectURL(blob);
-        addImage({
-          src: url,
-          width: image.naturalWidth,
-          height: image.naturalHeight,
-        });
-        URL.revokeObjectURL(blob);
-      });
+    canvas.toBlob((blob) => {
+      const url = URL.createObjectURL(blob);
+      replaceImage({ activeSlide, url });
+      URL.revokeObjectURL(blob);
     });
+
+    setBrightness(1);
+    setContrast(1);
+    setGrayscale(false);
   };
 
   return (
@@ -128,7 +142,11 @@ const Gallery = () => {
                 <img
                   ref={imageRefs.current[index]}
                   style={{
-                    filter: `brightness(${brightness}%) contrast(${contrast}%) grayscale(${grayscale}%)`,
+                    filter: `brightness(${
+                      (parseFloat(brightness) + 100) / 100
+                    }) contrast(${
+                      (parseFloat(contrast) + 100) / 100
+                    }) grayscale(${grayscale ? 1 : 0})`,
                   }}
                   className={`py-3 px-2`}
                   src={src}
@@ -180,7 +198,9 @@ const Gallery = () => {
               </button>
               <button
                 className="text-white border-2 border-white m-3 p-1"
-                onClick={() => setIsEditing(true)}
+                onClick={() => {
+                  setIsEditing(true);
+                }}
               >
                 Edit
                 {/* <Close imageIndex={index} /> */}
@@ -191,20 +211,27 @@ const Gallery = () => {
           {/* SLIDERS */}
           {isEditing && (
             <div className="grid grid-cols-12 grid-rows-3 items-center w-full justify-center">
-              <div className="col-span-2 text-white ml-2">Brightness</div>
+              <div className="col-span-2 text-white ml-2">Brightness:</div>
               <div className="col-start-4 col-span-7 row-span-1 my-[0.01rem] ml-2">
                 <FilterSlider valueSetter={setBrightness} />
               </div>
-              <div className="col-span-2 text-white ml-2">Contrast</div>
+              <div className="col-span-3 text-white ml-2">Contrast:</div>
               <div className="col-start-4 col-span-7 row-span-1 my-[0.01rem] ml-2">
                 <FilterSlider valueSetter={setContrast} />
               </div>
               <div className="col-span-2 text-white ml-2">Grayscale</div>
-              <div className="col-start-4 col-span-7 row-span-1 my-[0.01rem] ml-2">
-                <FilterSlider valueSetter={setGrayscale} />
-              </div>
               <div
-                onClick={() => setIsEditing(false)}
+                onClick={() => setGrayscale((grayscale) => !grayscale)}
+                className="col-start-4 col-span-3 justify-self-start row-span-1 m-2 w-5 h-5 rounded-sm"
+                style={{
+                  backgroundColor: grayscale ? "rgb(100,255,0)" : "white",
+                }}
+              ></div>
+              <div
+                onClick={() => {
+                  setFilterToImage(images[activeSlide]);
+                  setIsEditing(false);
+                }}
                 className="col-start-11 col-span-2 row-span-full row-start-1 justify-self-center self-center align-middle"
               >
                 <Close width={50} />
@@ -236,7 +263,8 @@ const Gallery = () => {
           )}
         </div>
       )}
-      <canvas className="w-full" ref={canvasRef}></canvas>
+      <canvas className="w-full hidden" ref={canvasRef}></canvas>
+      <img className="hidden" ref={photoRef}></img>
     </div>
   );
 };

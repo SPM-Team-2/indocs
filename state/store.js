@@ -16,8 +16,11 @@ const store = createStore(
     removeImage: action((state, payload) => {
       state.images.splice(payload, 1);
     }),
-    removeAllImages: action((state, payload) => {
+    removeAllImages: action((state) => {
       state.images = [];
+    }),
+    replaceImage: action((state, { activeSlide, url }) => {
+      state.images[activeSlide] = { ...state.images[activeSlide], src: url };
     }),
   }
   // })
