@@ -1,3 +1,4 @@
+/* global cv */
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useStoreActions, useStoreState } from "easy-peasy";
@@ -5,7 +6,7 @@ import { motion } from "framer-motion";
 import UploadIcon from "../assets/upload";
 import { getMedia, resizeCanvas } from "../utils/camera-functions";
 import useBlobImage from "../utils/blob";
-// import { invertFilter } from "../utils/image-processing";
+import { returnControlPoints } from "../utils/image-processing";
 
 const Camera = () => {
   // * References
@@ -33,6 +34,11 @@ const Camera = () => {
 
     if (video.videoWidth)
       context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+
+    // Scan
+    // canvas video.videoHeight
+    let ar = returnControlPoints(canvas,video.videoHeight);
+    console.log(ar)
 
     toBlob(canvas, photo, video.videoWidth, video.videoHeight);
     setPop(true);
