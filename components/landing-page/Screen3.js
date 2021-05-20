@@ -1,5 +1,6 @@
 import React from "react";
 import Block from "../block";
+import Link from 'next/link'
 
 function Screen3() {
   return (
