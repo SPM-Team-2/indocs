@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 const CircleElement = ({ dim, x, y, pad = false, del }) => {
   return (
     <motion.div
-      className="relative rounded-full bg-white z-0"
+      className="absolute rounded-full bg-white z-0"
       style={{
         width: dim,
         height: dim,
@@ -15,13 +15,14 @@ const CircleElement = ({ dim, x, y, pad = false, del }) => {
         padding: pad ? `${pad}px` : "20px",
       }}
       animate={{
-        width: [dim, dim + 10, dim - 10, dim],
-        height: [dim, dim + 10, dim - 10, dim],
+        width: [dim, dim + dim / 15, dim - dim / 15, dim],
+        height: [dim, dim + dim / 15, dim - dim / 15, dim],
       }}
       transition={{
         repeatDelay: del,
         repeat: Infinity,
-        duration: 5,
+        duration: 30,
+        type: 'inertia'
       }}
     ></motion.div>
   );
