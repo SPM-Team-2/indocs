@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "canvas-filters": "^1.0.1",
     "easy-peasy": "^5.0.3",
     "firebase": "^8.6.1",
     "firebase-admin": "^9.8.0",
