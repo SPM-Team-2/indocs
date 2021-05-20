@@ -19,6 +19,7 @@ class MyDocument extends Document {
             href="https://fonts.googleapis.com/css2?family=Lobster&display=swap"
             rel="stylesheet"
           ></link>
+          <script async src="https://docs.opencv.org/master/opencv.js" type="text/javascript"></script>
         </Head>
         <body>
           <Main />
