@@ -131,11 +131,13 @@ const Gallery = () => {
             }}
             onSlideChange={(e) => setActiveSlide(e.activeIndex)}
             // loop={true}
+            autoHeight={true}
             spaceBetween={10}
             navigation={true}
             thumbs={{ swiper: thumbsSwiper }}
             className="mySwiper2"
             ref={swiperRef}
+            pagination={{ type: "fraction" }}
           >
             {images.map(({ src }, index) => (
               <SwiperSlide key={src}>
@@ -148,7 +150,7 @@ const Gallery = () => {
                       (parseFloat(contrast) + 100) / 100
                     }) grayscale(${grayscale ? 1 : 0})`,
                   }}
-                  className={`py-3 px-2`}
+                  className={`py-3 px-2 max-h-[70vh] w-screen object-contain`}
                   src={src}
                 />
               </SwiperSlide>
@@ -170,7 +172,7 @@ const Gallery = () => {
               <SwiperSlide key={src}>
                 <img
                   ref={imageRefs.current[index]}
-                  className={`py-3 px-2 filter`}
+                  className={`py-3 px-2`}
                   src={src}
                 />
               </SwiperSlide>

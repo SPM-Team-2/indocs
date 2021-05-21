@@ -1,8 +1,8 @@
 import { action, createStore, persist } from "easy-peasy";
 
 const store = createStore(
-  // persist({
-  {
+  persist({
+    // {
     // * STATE
     images: [],
 
@@ -22,8 +22,8 @@ const store = createStore(
     replaceImage: action((state, { activeSlide, url }) => {
       state.images[activeSlide] = { ...state.images[activeSlide], src: url };
     }),
-  }
-  // })
+    // }
+  })
 );
 
 export default store;
