@@ -18,6 +18,7 @@ import FilterSlider from "../components/filterSlider";
 import ImageFilters from "canvas-filters";
 import getOCR from "../utils/getOCR";
 import { saveOcrFirebase } from "../hooks/useStorage";
+import WhatsappLogo from "../assets/whatsapp-logo";
 
 // import { Jimage } from "react-jimp";
 
@@ -39,6 +40,7 @@ const Gallery = () => {
   const [grayscale, setGrayscale] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const imageRefs = useRef([]);
+  const [pdfRes, setPdfRes] = useState();
 
   if (imageRefs.current.length !== images.length) {
     // add or remove refs
@@ -48,9 +50,26 @@ const Gallery = () => {
   }
 
   const handleGeneratePdfFromImages = () => {
-    generatePdf(images);
+    const { pdfFile, pdfURL } = generatePdf(images);
+    setPdfRes({ pdfFile, pdfURL });
     setPdfGenrated(true);
     cleanUpUploadedImages();
+  };
+
+  const handlePdfShare = (e) => {
+    switch (e.target.id) {
+      case "download": {
+        downloadPdf();
+        break;
+      }
+      default: {
+        console.log("something went wrong :/");
+      }
+    }
+  };
+
+  const downloadPdf = () => {
+    window.open(pdfRes.pdfURL, "_blank");
   };
 
   const handleOCR = async () => {
@@ -255,16 +274,41 @@ const Gallery = () => {
           )}
         </motion.div>
       ) : (
-        <div className="h-[90vh] flex justify-center items-center flex-col">
+        <div
+          className="h-[90vh] w-screen flex justify-center items-center flex-col"
+          style={{
+            position: "absolute",
+            top: "10%",
+          }}
+        >
           {pdfGenerated ? (
             <>
               <PdfDoneIcon />
               <div className="text-gray-300 text-center mt-3 px-3 sm:text-lg text-sm overflow-visible">
                 <span className="text-xl font-bold">Done!</span>
-                <br /> Your pdf should have opened in a new tab <br />{" "}
-                <div className="border-b-[1px] border-gray-300 pb-2">
-                  Make sure you save it before closing the tab
-                </div>
+                <br /> <div className="my-3">
+                  Your pdf is generated
+                </div> <br />{" "}
+              </div>
+              <div className="flex flex-col">
+                <button className="border-white border-2 bg-[#4CAF50] rounded-lg p-2 text-white my-2">
+                  <div className="flex justify-evenly">
+                    <div>Share on</div>
+                    <div className="h-[100%] w-[20%] mt-1">
+                      <WhatsappLogo />
+                    </div>
+                  </div>
+                </button>
+                <button className="border-white border-2 bg-red-500 rounded-lg p-2 text-white my-2">
+                  Copy URL
+                </button>
+                <button
+                  id="download"
+                  onClick={handlePdfShare}
+                  className="border-white border-2 bg-primary rounded-lg p-2 text-white my-2"
+                >
+                  Download PDF
+                </button>
               </div>
             </>
           ) : (

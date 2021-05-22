@@ -90,6 +90,12 @@ body {
   width: 100%;
 }
 
+.mySwiper2 .swiper-slide-active {
+  height: 100%;
+  width: 100%;
+  min-height: 50vh;
+}
+
 .mySwiper {
   height: 20%;
   box-sizing: border-box;

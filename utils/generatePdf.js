@@ -73,9 +73,12 @@ const generatePdf = (images) => {
   });
 
   // Creates a PDF and opens it in a new browser tab.
-  const pdfURL = doc.output("blob");
-  console.log(pdfURL);
-  window.open(pdfURL, "_blank");
+  const pdfFile = doc.output("blob");
+  const pdfURL = doc.output("bloburl");
+
+  return { pdfFile, pdfURL };
+  // console.log(pdfFile);
+  // window.open(pdfURL, "_blank");
 };
 
 export default generatePdf;
