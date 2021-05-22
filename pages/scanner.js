@@ -87,19 +87,29 @@ const Camera = () => {
     // Uploaded images are read and the app state is updated.
     const fileToImagePromises = fileArray.map(fileToImageURL);
     Promise.all(fileToImagePromises).then((res) => {
-      res.map((image) =>
+      const canvas = canvasRef.current;
+      res.map((image) => {
+        canvas.width = image.naturalWidth;
+        canvas.height = image.naturalHeight;
+
+        let ar = returnControlPoints(image, image.naturalHeight);
+        const imgMat = scanImage(canvas, ar);
+        cv.imshow(canvas, imgMat);
         addImage({
-          src: image.src,
-          width: image.naturalWidth,
-          height: image.naturalHeight,
-        })
-      );
+          src: canvas.src,
+          width: canvas.width,
+          height: canvas.height,
+        });
+      });
     });
   };
 
   return (
     <>
-      <motion.div key="wrapper" className="wrapper h-screen overflow-hidden">
+      <motion.div
+        key="wrapper"
+        className="wrapper h-screen overflow-hidden w-screen"
+      >
         <div className="mt-10">
           <video
             id="video"

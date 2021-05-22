@@ -112,3 +112,15 @@ body {
   height: 100%;
   object-fit: cover;
 }
+
+/* Firebase Auth container */
+
+/* #firebaseui_container {
+  width: 85%;
+  margin: 0 auto;
+} */
+
+/* .firebaseui-idp-button,
+.firebaseui-tenant-button {
+  max-width: 100%;
+} */
