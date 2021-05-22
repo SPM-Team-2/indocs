@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import UploadIcon from "../assets/upload";
 import { getMedia, resizeCanvas } from "../utils/camera-functions";
 import useBlobImage from "../utils/blob";
-import { returnControlPoints } from "../utils/image-processing";
+import { returnControlPoints, scanImage } from "../utils/image-processing";
 
 const Camera = () => {
   // * References
@@ -32,13 +32,16 @@ const Camera = () => {
 
     resizeCanvas(canvas, video);
 
-    if (video.videoWidth)
+    if (video.videoWidth) {
       context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+    }
 
     // Scan
     // canvas video.videoHeight
-    let ar = returnControlPoints(canvas,video.videoHeight);
-    console.log(ar)
+    let ar = returnControlPoints(canvas, video.videoHeight);
+    const imgMat = scanImage(canvas, ar);
+    cv.imshow(canvas, imgMat);
+    // const imgData = new ImageData(new Uint8ClampedArray(dst.data, dst.cols, dst.rows))
 
     toBlob(canvas, photo, video.videoWidth, video.videoHeight);
     setPop(true);

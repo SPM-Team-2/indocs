@@ -69,8 +69,8 @@ body {
 .swiper-slide img {
   display: block;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  /* height: 50vh; */
+  object-fit: contain;
 }
 
 .swiper-container {
@@ -86,7 +86,7 @@ body {
 }
 
 .mySwiper2 {
-  height: 80%;
+  height: 100%;
   width: 100%;
 }
 
@@ -98,7 +98,7 @@ body {
 
 .mySwiper .swiper-slide {
   width: 25%;
-  height: 100%;
+  height: 15vh;
   opacity: 0.4;
 }
 

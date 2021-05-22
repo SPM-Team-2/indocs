@@ -5,7 +5,7 @@ import Screen3 from "../components/landing-page/Screen3";
 
 const LandingPage = () => {
   return (
-    <div className="text-slightWhite">
+    <div className="text-slightWhite font-nunito">
       <Background />
       <Screen1 />
       <Screen2 />
