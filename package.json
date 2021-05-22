@@ -21,7 +21,8 @@
     "react-dom": "17.0.1",
     "react-firebaseui": "^5.0.2",
     "react-input-slider": "^6.0.0",
-    "swiper": "^6.6.1"
+    "swiper": "^6.6.1",
+    "tesseract.js": "^2.1.4"
   },
   "devDependencies": {
     "autoprefixer": "^10.2.5",
