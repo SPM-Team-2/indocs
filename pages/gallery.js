@@ -20,6 +20,7 @@ import getOCR from "../utils/getOCR";
 import { saveOcrFirebase } from "../hooks/useStorage";
 import WhatsappLogo from "../assets/whatsapp-logo";
 import { useUser } from "../Handlers/useUser";
+import { useRouter } from "next/router";
 
 // import { Jimage } from "react-jimp";
 
@@ -29,6 +30,8 @@ const Gallery = () => {
   const canvasRef = useRef();
   const photoRef = useRef();
   const swiperRef = useRef();
+
+  const router = useRouter();
   const { images } = useStoreState((state) => state);
   const { removeImage, removeAllImages, replaceImage } = useStoreActions(
     (action) => action
@@ -236,7 +239,13 @@ const Gallery = () => {
               <button
                 className="text-white border-2 border-white m-3 p-1"
                 onClick={() => {
-                  setIsEditing(true);
+                  router.push({
+                    pathname: '/edit',
+                    query: {
+                      activeSlide: activeSlide
+                    },
+                  });
+                  // setIsEditing(true);
                 }}
               >
                 Edit

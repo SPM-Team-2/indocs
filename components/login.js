@@ -1,7 +1,7 @@
 import FirebaseAuth from "./FirebaseAuth";
 import React, { useState } from "react";
 import Head from "next/head";
-import ProgressBar from "./ProgressBar";
+import ProgressBar from "../components/ProgressBar";
 
 const Login = () => {
   const [file, setFile] = useState(null);
