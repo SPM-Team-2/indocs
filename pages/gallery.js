@@ -47,20 +47,22 @@ const Gallery = () => {
       .map((_, i) => imageRefs.current[i] || createRef());
   }
 
-  const handleGeneratePdfFromImages = async () => {
+  const handleGeneratePdfFromImages = () => {
+    generatePdf(images);
+    setPdfGenrated(true);
+    cleanUpUploadedImages();
+  };
+
+  const handleOCR = async () => {
     let data = await getOCR(images);
-    console.log('you',data);
+    console.log("you", data);
     try {
       saveOcrFirebase(data);
     } catch (error) {
       console.log(error);
     }
-    // generatePdf(images);
-    // setPdfGenrated(true);
-    // cleanUpUploadedImages();
+    handleGeneratePdfFromImages();
   };
-
-  const handleOCR = () => {};
 
   const cleanUpUploadedImages = () => {
     images.forEach((image) => {
