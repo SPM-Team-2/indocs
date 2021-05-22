@@ -83,7 +83,8 @@ function findContours(image) {
     let perim = cv.arcLength(cnt, true);
     let approx = new cv.Mat();
     cv.approxPolyDP(cnt, approx, 0.02 * perim, true);
-    if (approx.rows == 4) {
+    let area = cv.contourArea(cnt, false);
+    if (approx.rows == 4 && area>=100) {
       foundContour = approx;
       ar = defineCornerPointsFromMatObject(foundContour);
       break;
