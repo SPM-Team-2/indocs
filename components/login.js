@@ -1,9 +1,9 @@
-import FirebaseAuth from "../components/FirebaseAuth";
+import FirebaseAuth from "./FirebaseAuth";
 import React, { useState } from "react";
 import Head from "next/head";
-import ProgressBar from '../components/ProgressBar';
+import ProgressBar from "./ProgressBar";
 
-const login = () => {
+const Login = () => {
   const [file, setFile] = useState(null);
   const [error, setError] = useState(null);
 
@@ -23,18 +23,21 @@ const login = () => {
   };
 
   const signIn = () => {
-    auth.signInWithPopup(provider).catch(alert);
+    auth
+      .signInWithPopup(provider)
+      .then(() => {})
+      .catch(alert);
   };
 
   return (
-    <div>
+    <div className="z-10 w-full">
       <Head>
         <title>Login</title>
       </Head>
       <FirebaseAuth />
-      <p>
-        <a href="/loginTest"> goto testing page </a>
-      </p>
+      {/* <p>
+        <a href="/"> goto testing page </a>
+      </p> */}
       <form>
         <label>
           <input type="file" onChange={changeHandler} />
@@ -51,4 +54,4 @@ const login = () => {
   );
 };
 
-export default login;
+export default Login;

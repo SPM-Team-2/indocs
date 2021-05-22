@@ -63,7 +63,7 @@ const generatePdf = (images) => {
     doc.addPage();
     doc.addImage(
       image.src,
-    //   image.imageType,
+      //   image.imageType,
       // Images are vertically and horizontally centered on the page.
       (A4_PAPER_DIMENSIONS.width - imageDimensions.width) / 2,
       (A4_PAPER_DIMENSIONS.height - imageDimensions.height) / 2,
@@ -73,8 +73,12 @@ const generatePdf = (images) => {
   });
 
   // Creates a PDF and opens it in a new browser tab.
+  const pdfFile = doc.output("blob");
   const pdfURL = doc.output("bloburl");
-  window.open(pdfURL, "_blank");
+
+  return { pdfFile, pdfURL };
+  // console.log(pdfFile);
+  // window.open(pdfURL, "_blank");
 };
 
 export default generatePdf;

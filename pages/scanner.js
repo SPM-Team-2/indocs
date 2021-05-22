@@ -82,7 +82,7 @@ const Camera = () => {
     });
   };
 
-  const handleImageUpload = (e) => {
+    const handleImageUpload = (e) => {
     const fileList = e.target.files;
     const fileArray = fileList ? Array.from(fileList) : [];
 
@@ -91,7 +91,6 @@ const Camera = () => {
     Promise.all(fileToImagePromises).then((res) => {
       res.map((image) => {
         console.log(image.src)
-        // let newImage = scanImage(image.src, returnControlPoints(image.src, image.naturalHeight))
         addImage({
           src: image.src,
           width: image.naturalWidth,
@@ -101,14 +100,16 @@ const Camera = () => {
       );
     });
   };
-
   const editPage = () => {
     router.push('/edit');
   }
 
   return (
     <>
-      <motion.div key="wrapper" className="wrapper h-screen overflow-hidden">
+      <motion.div
+        key="wrapper"
+        className="wrapper h-screen overflow-hidden w-screen"
+      >
         <div className="mt-10">
           <video
             id="video"

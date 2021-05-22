@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useUser } from "../Handlers/useUser";
 import getOCR from "../utils/getOCR";
 
-const loginTest = () => {
+const LoginTest = () => {
   const { user, logout } = useUser();
   
   
@@ -16,7 +16,7 @@ const loginTest = () => {
 
   if (user) {
     return (
-      <>
+      <div className="z-10">
         <h1>{user.name}</h1>
         <h1>{user.email}</h1>
         {user.profilePic ? (
@@ -29,7 +29,7 @@ const loginTest = () => {
 
 
         <button onClick={() => logout()}> Logout! </button>
-      </>
+      </div>
     );
   } else {
     return (
@@ -40,4 +40,4 @@ const loginTest = () => {
   }
 };
 
-export default loginTest;
+export default LoginTest;

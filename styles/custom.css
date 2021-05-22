@@ -90,6 +90,12 @@ body {
   width: 100%;
 }
 
+.mySwiper2 .swiper-slide-active {
+  height: 100%;
+  width: 100%;
+  min-height: 50vh;
+}
+
 .mySwiper {
   height: 20%;
   box-sizing: border-box;
@@ -112,3 +118,15 @@ body {
   height: 100%;
   object-fit: cover;
 }
+
+/* Firebase Auth container */
+
+/* #firebaseui_container {
+  width: 85%;
+  margin: 0 auto;
+} */
+
+/* .firebaseui-idp-button,
+.firebaseui-tenant-button {
+  max-width: 100%;
+} */

@@ -5,6 +5,7 @@ import firebase from "firebase/app";
 import "firebase/auth";
 import { setUserCookie } from "../Handlers/userCookies";
 import { mapUserData } from "../Handlers/mapUserData";
+import { useUser } from "../Handlers/useUser";
 
 initFirebase();
 
@@ -14,7 +15,7 @@ const FirebaseAuthConfig = {
     firebase.auth.GoogleAuthProvider.PROVIDER_ID,
     // firebase.auth.GithubAuthProvider.PROVIDER_ID,
   ],
-  signInSuccessUrl: "/loginTest",
+  signInSuccessUrl: "/",
   credentialHelper: "none",
   callbacks: {
     signInSuccessWithAuthResult: async ({ user }, redirectUrl) => {
@@ -25,25 +26,48 @@ const FirebaseAuthConfig = {
 };
 
 const FirebaseAuth = () => {
-  const [renderAuth, setRenderAuth] = useState(false);
+  // const [renderAuth, setRenderAuth] = useState(true);
+  const { user, logout } = useUser();
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setRenderAuth(true);
-    }
-  }, []);
+  // useEffect(() => {
+  // if (user) setRenderAuth(true);
+  // if (typeof window !== "undefined") {
+  //   setRenderAuth(true);
+  // }
+  // }, []);
+
+  console.log(user);
 
   return (
-    <div>
-      {renderAuth ? (
-        <StyledFirebaseAuth
-          uiConfig={FirebaseAuthConfig}
-          firebaseAuth={firebase.auth()}
-        />
+    <>
+      {!user ? (
+        <div className="w-8/12 mx-auto">
+          <StyledFirebaseAuth
+            uiConfig={FirebaseAuthConfig}
+            firebaseAuth={firebase.auth()}
+          />
+        </div>
       ) : (
-        <h1>RenderAuth is false</h1>
+        <div className="w-1/5 mx-auto">
+          <button
+            className="w-full border-2 border-white p-2 sm:p-1 bg-red-500 mt-3 rounded-lg text-sm"
+            onClick={logout}
+          >
+            Logout
+          </button>
+        </div>
       )}
-    </div>
+    </>
+    // <div className="w-8/12 mx-auto">
+    //   {!user ? (
+    //     <StyledFirebaseAuth
+    //       uiConfig={FirebaseAuthConfig}
+    //       firebaseAuth={firebase.auth()}
+    //     />
+    //   ) : (
+    //     <h1>RenderAuth is false</h1>
+    //   )}
+    // </div>
   );
 };
 
