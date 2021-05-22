@@ -5,7 +5,7 @@ import Close from "../assets/close";
 import LeftArrowIcon from "../assets/left-arrow";
 import EmptyGalleryIcon from "../assets/empty-gallery-icon";
 import generatePdf from "../utils/generatePdf";
-import { createRef, useRef, useState } from "react";
+import { createRef, useEffect, useRef, useState } from "react";
 import PdfDoneIcon from "../assets/pdf-done-icon";
 // Import Swiper React components
 import SwiperCore, { Navigation, Thumbs } from "swiper/core";
@@ -19,6 +19,7 @@ import ImageFilters from "canvas-filters";
 import getOCR from "../utils/getOCR";
 import { saveOcrFirebase } from "../hooks/useStorage";
 import WhatsappLogo from "../assets/whatsapp-logo";
+import { useUser } from "../Handlers/useUser";
 
 // import { Jimage } from "react-jimp";
 
@@ -32,6 +33,7 @@ const Gallery = () => {
   const { removeImage, removeAllImages, replaceImage } = useStoreActions(
     (action) => action
   );
+  const { user } = useUser();
   const [pdfGenerated, setPdfGenrated] = useState(false);
   const [thumbsSwiper, setThumbsSwiper] = useState();
   const [activeSlide, setActiveSlide] = useState(0);
@@ -41,6 +43,7 @@ const Gallery = () => {
   const [isEditing, setIsEditing] = useState(false);
   const imageRefs = useRef([]);
   const [pdfRes, setPdfRes] = useState();
+  const [modal, setModal] = useState(false);
 
   if (imageRefs.current.length !== images.length) {
     // add or remove refs
@@ -290,18 +293,51 @@ const Gallery = () => {
                   Your pdf is generated
                 </div> <br />{" "}
               </div>
+              {modal && (
+                <div className="text-red-400">
+                  You need to login to use this feature
+                </div>
+              )}
               <div className="flex flex-col">
-                <button className="border-white border-2 bg-[#4CAF50] rounded-lg p-2 text-white my-2">
+                <motion.button
+                  className="border-white border-2 bg-[#4CAF50] rounded-lg p-2 text-white my-2"
+                  initial={{
+                    opacity: 1,
+                  }}
+                  animate={{
+                    opacity: !!user ? 1 : 0.2,
+                  }}
+                  transition={{
+                    duration: 0.7,
+                  }}
+                  onClick={() =>
+                    !!user ? console.log("hello") : setModal(true)
+                  }
+                >
                   <div className="flex justify-evenly">
                     <div>Share on</div>
                     <div className="h-[100%] w-[20%] mt-1">
                       <WhatsappLogo />
                     </div>
                   </div>
-                </button>
-                <button className="border-white border-2 bg-red-500 rounded-lg p-2 text-white my-2">
+                </motion.button>
+                <motion.button
+                  className="border-white border-2 bg-red-500 rounded-lg p-2 text-white my-2"
+                  initial={{
+                    opacity: 1,
+                  }}
+                  animate={{
+                    opacity: !!user ? 1 : 0.2,
+                  }}
+                  transition={{
+                    duration: 0.7,
+                  }}
+                  onClick={() =>
+                    !!user ? console.log("hello") : setModal(true)
+                  }
+                >
                   Copy URL
-                </button>
+                </motion.button>
                 <button
                   id="download"
                   onClick={handlePdfShare}
@@ -313,11 +349,13 @@ const Gallery = () => {
             </>
           ) : (
             <>
+              {/* <div className="top-3"> */}
               <EmptyGalleryIcon />
               <div className="text-gray-300 text-center mt-3 px-3 sm:text-lg text-sm">
                 Oops! looks like there are no images in your document right now,
                 go back and click a few
               </div>
+              {/* </div> */}
             </>
           )}
         </div>

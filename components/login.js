@@ -38,7 +38,7 @@ const Login = () => {
       {/* <p>
         <a href="/"> goto testing page </a>
       </p> */}
-      <form>
+      {/* <form>
         <label>
           <input type="file" onChange={changeHandler} />
           <span>+</span>
@@ -49,7 +49,7 @@ const Login = () => {
           {file && <div className="file"> {file.name}</div>}
           {file && <ProgressBar file={file} setFile={setFile} />}
         </div>
-      </form>
+      </form> */}
     </div>
   );
 };

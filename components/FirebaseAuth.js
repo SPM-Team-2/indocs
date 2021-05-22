@@ -36,8 +36,6 @@ const FirebaseAuth = () => {
   // }
   // }, []);
 
-  console.log(user);
-
   return (
     <>
       {!user ? (
