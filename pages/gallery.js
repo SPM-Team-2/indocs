@@ -221,13 +221,22 @@ const Gallery = () => {
           {!isEditing && (
             <div className="flex justify-center">
               {images.length > 0 && (
-                <button
-                  key="pdf"
-                  className="text-white border-2 border-white m-3 p-1"
-                  onClick={handleGeneratePdfFromImages}
-                >
-                  GENERATE PDF
-                </button>
+                <>
+                  <button
+                    key="pdf"
+                    className="text-white border-2 border-white m-3 p-1"
+                    onClick={handleGeneratePdfFromImages}
+                  >
+                    Pdf
+                  </button>
+                  <button
+                    key="pdfocr"
+                    className="text-white border-2 border-white m-3 p-1"
+                    onClick={handleGeneratePdfFromImages}
+                  >
+                    Pdf + OCR
+                  </button>
+                </>
               )}
               <button
                 className="text-white border-2 border-white m-3 p-1"
@@ -240,9 +249,9 @@ const Gallery = () => {
                 className="text-white border-2 border-white m-3 p-1"
                 onClick={() => {
                   router.push({
-                    pathname: '/edit',
+                    pathname: "/edit",
                     query: {
-                      activeSlide: activeSlide
+                      activeSlide: activeSlide,
                     },
                   });
                   // setIsEditing(true);
