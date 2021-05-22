@@ -16,6 +16,8 @@ import "swiper/components/navigation/navigation.min.css";
 import "swiper/components/thumbs/thumbs.min.css";
 import FilterSlider from "../components/filterSlider";
 import ImageFilters from "canvas-filters";
+import getOCR from "../utils/getOCR";
+import { saveOcrFirebase } from "../hooks/useStorage";
 
 // import { Jimage } from "react-jimp";
 
@@ -45,11 +47,20 @@ const Gallery = () => {
       .map((_, i) => imageRefs.current[i] || createRef());
   }
 
-  const handleGeneratePdfFromImages = () => {
-    generatePdf(images);
-    setPdfGenrated(true);
-    cleanUpUploadedImages();
+  const handleGeneratePdfFromImages = async () => {
+    let data = await getOCR(images);
+    console.log('you',data);
+    try {
+      saveOcrFirebase(data);
+    } catch (error) {
+      console.log(error);
+    }
+    // generatePdf(images);
+    // setPdfGenrated(true);
+    // cleanUpUploadedImages();
   };
+
+  const handleOCR = () => {};
 
   const cleanUpUploadedImages = () => {
     images.forEach((image) => {

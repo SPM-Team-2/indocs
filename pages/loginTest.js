@@ -1,8 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { useUser } from "../Handlers/useUser";
+import getOCR from "../utils/getOCR";
 
 const loginTest = () => {
   const { user, logout } = useUser();
+  
+  
+  
+  const changeHandler = (e) => {
+    let selected = e.target.files[0];
+    console.log(selected.type);
+    getOCR(selected);
+    console.log(selected);
+  };
 
   if (user) {
     return (
@@ -15,6 +25,9 @@ const loginTest = () => {
           <p>No profile pic</p>
         )}
         <h1>Logged in dude</h1>
+        <input type="file" onChange={changeHandler} />
+
+
         <button onClick={() => logout()}> Logout! </button>
       </>
     );

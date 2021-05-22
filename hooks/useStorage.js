@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, Children } from "react";
 import initFirebase from "../Handlers/firebaseHandler";
 import firebase from "firebase/app";
 import "firebase/storage";
@@ -37,4 +37,9 @@ const useStorage = (file) => {
   return { progress, url, error };
 };
 
-export default useStorage;
+const saveOcrFirebase = (data) => {
+  const collectionRef = projectFirestore.collection("files");
+  collectionRef.add({ data, createdAt: timestamp() });
+};
+
+export { useStorage, saveOcrFirebase };
