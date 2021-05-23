@@ -22,9 +22,9 @@ import WhatsappLogo from "../assets/whatsapp-logo";
 import { useUser } from "../Handlers/useUser";
 import { useRouter } from "next/router";
 import OcrIcon from "../assets/ocr-icon";
-import DeleteIcon from "../assets/delete";
+import DeleteIcon from "../assets/delete-icon";
 import EditIcon from "../assets/edit-icon";
-import DocumentIcon from "../assets/document";
+import DocumentIcon from "../assets/document-icon";
 
 // import { Jimage } from "react-jimp";
 
