@@ -1,7 +1,7 @@
 import { useStoreActions, useStoreState } from "easy-peasy";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import Close from "../assets/close";
+import Close from "../assets/close-icon";
 import LeftArrowIcon from "../assets/left-arrow";
 import EmptyGalleryIcon from "../assets/empty-gallery-icon";
 import generatePdf from "../utils/generatePdf";
@@ -26,6 +26,10 @@ import WhatsappLogo from "../assets/whatsapp-logo";
 import { useUser } from "../Handlers/useUser";
 import { useRouter } from "next/router";
 import { createShareURL, bitlyURL } from "../utils/createShareURL";
+import OcrIcon from "../assets/ocr-icon";
+import DeleteIcon from "../assets/delete-icon";
+import EditIcon from "../assets/edit-icon";
+import DocumentIcon from "../assets/document-icon";
 
 // import { Jimage } from "react-jimp";
 
@@ -233,36 +237,61 @@ const Gallery = () => {
 
           {/* BUTTONS */}
           {!isEditing && (
-            <div className="flex justify-center">
+            <div className="grid grid-cols-4 grid-rows-1 justify-items-center">
               {images.length > 0 && (
-                <button
-                  key="pdf"
-                  className="text-white border-2 border-white m-3 p-1"
-                  onClick={handleGeneratePdfFromImages}
-                >
-                  GENERATE PDF
-                </button>
+                <>
+                  <button
+                    key="pdf"
+                    className="text-white rounded-lg m-3 p-1 border-l-2 border-r-2 border-white font-nunito text-sm"
+                    // style={{
+                    //   backgroundColor: 'rgb(31, 41, 55)'
+                    // }}
+                    onClick={handleGeneratePdfFromImages}
+                  >
+                    <DocumentIcon width={'4rem'} height={"2rem"} />
+                    <div className="mt-1">Pdf</div>
+                  </button>
+                  <button
+                    key="pdfocr"
+                    className="text-white m-3 rounded-lg p-1 border-l-2 border-r-2 border-white font-nunito text-sm"
+                    // style={{
+                    //   backgroundColor: 'rgb(31, 41, 55)'
+                    // }}
+                    onClick={handleGeneratePdfFromImages}
+                  >
+                    <OcrIcon width={'4rem'} height={"2rem"} />
+                    <div className="mt-1">Pdf+OCR</div>
+                  </button>
+                </>
               )}
               <button
-                className="text-white border-2 border-white m-3 p-1"
+                className="text-white m-3 p-1 rounded-lg border-l-2 border-r-2 border-white font-nunito text-sm" 
+                // style={{
+                //   backgroundColor: 'rgb(31, 41, 55)'
+                // }}
                 onClick={() => removeImage(activeSlide)}
               >
-                Delete
+                <DeleteIcon width={'4rem'} height={"2rem"} />
+                <div className="mt-1">Delete</div>
                 {/* <Close imageIndex={index} /> */}
               </button>
               <button
-                className="text-white border-2 border-white m-3 p-1"
+                className="text-white rounded-lg m-3 p-1 border-l-2 border-r-2 border-white font-nunito text-sm"
+                // style={{
+                //   backgroundColor: 'rgb(31, 41, 55)'
+                // }}
                 onClick={() => {
-                  router.push({
-                    pathname: "/edit",
-                    query: {
-                      activeSlide: activeSlide,
-                    },
-                  });
-                  // setIsEditing(true);
+                  // router.push({
+                  //   pathname: "/edit",
+                  //   query: {
+                  //     activeSlide: activeSlide,
+                  //   },
+                  // });
+                  setIsEditing(true);
                 }}
               >
-                Edit
+                <EditIcon width={'4rem'} height={"2rem"} />
+                <div className="mt-1">Edit</div>
                 {/* <Close imageIndex={index} /> */}
               </button>
             </div>
