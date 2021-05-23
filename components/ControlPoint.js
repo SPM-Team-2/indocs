@@ -17,7 +17,7 @@ export default function ControlPoint({
     initialDX,
     initialDY
   );
-//   console.log(dx, dy);
+  console.log(dx, dy);
 
   function resolve(path, obj = self, separator = ".") {
     var properties = Array.isArray(path) ? path : path.split(separator);

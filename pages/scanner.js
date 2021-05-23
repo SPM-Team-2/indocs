@@ -6,7 +6,6 @@ import UploadIcon from "../assets/upload";
 import { getMedia, resizeCanvas } from "../utils/camera-functions";
 import useBlobImage from "../utils/blob";
 import { returnControlPoints, scanImage } from "../utils/image-processing";
-import Edit from './edit';
 import { useRouter } from 'next/router'
 
 const Camera = () => {
@@ -33,7 +32,7 @@ const Camera = () => {
     const photo = photoRef.current;
     const context = canvas.getContext("2d");
 
-    resizeCanvas(canvas, video);
+    resizeCanvas(canvas, video.videoWidth,video.videoHeight);
 
     if (video.videoWidth) {
       context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
@@ -82,7 +81,7 @@ const Camera = () => {
     });
   };
 
-    const handleImageUpload = (e) => {
+  const handleImageUpload = (e) => {
     const fileList = e.target.files;
     const fileArray = fileList ? Array.from(fileList) : [];
 
@@ -90,26 +89,35 @@ const Camera = () => {
     const fileToImagePromises = fileArray.map(fileToImageURL);
     Promise.all(fileToImagePromises).then((res) => {
       res.map((image) => {
-        console.log(image.src)
-        addImage({
-          src: image.src,
-          width: image.naturalWidth,
-          height: image.naturalHeight,
-        })
+        
+        let imageHeight = image.naturalWidth
+        let imageWidth = image.naturalWidth
+
+        const canvas = canvasRef.current;
+        const context = canvas.getContext("2d");
+
+        resizeCanvas(canvas,imageWidth,imageHeight)
+
+        let base_image = new Image();
+        base_image.src = image.src;
+        if (imageWidth) {
+          context.drawImage(base_image, 0, 0, imageWidth, imageHeight);
+        }
+
+        let ar = returnControlPoints(canvas,imageHeight)
+        const imgMat = scanImage(canvas, ar);
+        console.log(ar)
+        cv.imshow(canvas, imgMat);
+        toBlob(canvas, photoRef.current, imageWidth, imageHeight);
+
       }
       );
     });
   };
-  const editPage = () => {
-    router.push('/edit');
-  }
 
   return (
     <>
-      <motion.div
-        key="wrapper"
-        className="wrapper h-screen overflow-hidden w-screen"
-      >
+      <motion.div key="wrapper" className="wrapper h-screen overflow-hidden">
         <div className="mt-10">
           <video
             id="video"

@@ -12,9 +12,9 @@ async function getMedia() {
     .catch((err) => console.error("Stream access error: " + err));
 }
 
-const resizeCanvas = (canvas, video) => {
-  canvas.width = video.videoWidth;
-  canvas.height = video.videoHeight;
+const resizeCanvas = (canvas, videoWidth,videoHeight) => {
+  canvas.width = videoWidth;
+  canvas.height = videoHeight;
 };
 
 export { getMedia, resizeCanvas };
