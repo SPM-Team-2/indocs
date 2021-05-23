@@ -17,10 +17,15 @@ import "swiper/components/thumbs/thumbs.min.css";
 import FilterSlider from "../components/filterSlider";
 import ImageFilters from "canvas-filters";
 import getOCR from "../utils/getOCR";
-import { saveOcrFirebase } from "../hooks/useStorage";
+import {
+  saveOcrFirebase,
+  useStorage,
+  saveToCloudLink,
+} from "../hooks/useStorage";
 import WhatsappLogo from "../assets/whatsapp-logo";
 import { useUser } from "../Handlers/useUser";
 import { useRouter } from "next/router";
+import { createShareURL, bitlyURL } from "../utils/createShareURL";
 
 // import { Jimage } from "react-jimp";
 
@@ -78,9 +83,18 @@ const Gallery = () => {
     window.open(pdfRes.pdfURL, "_blank");
   };
 
+  const saveToCloud = async (file) => {
+    console.log("hello from the func");
+    console.log(file);
+    const url = await saveToCloudLink(file);
+    console.log(url);
+    let short_url = await bitlyURL(url);
+    await navigator.clipboard.writeText(short_url);
+    console.log(short_url);
+  };
+
   const handleOCR = async () => {
     let data = await getOCR(images);
-    console.log("you", data);
     try {
       saveOcrFirebase(data);
     } catch (error) {
@@ -240,9 +254,9 @@ const Gallery = () => {
                 className="text-white border-2 border-white m-3 p-1"
                 onClick={() => {
                   router.push({
-                    pathname: '/edit',
+                    pathname: "/edit",
                     query: {
-                      activeSlide: activeSlide
+                      activeSlide: activeSlide,
                     },
                   });
                   // setIsEditing(true);
@@ -320,7 +334,9 @@ const Gallery = () => {
                     duration: 0.7,
                   }}
                   onClick={() =>
-                    !!user ? console.log("hello") : setModal(true)
+                    !!user
+                      ? console.log("Share on whatapp") // shareToOtherApps()
+                      : setModal(true)
                   }
                 >
                   <div className="flex justify-evenly">
@@ -342,7 +358,7 @@ const Gallery = () => {
                     duration: 0.7,
                   }}
                   onClick={() =>
-                    !!user ? console.log("hello") : setModal(true)
+                    !!user ? saveToCloud(pdfRes.pdfFile) : setModal(true)
                   }
                 >
                   Copy URL

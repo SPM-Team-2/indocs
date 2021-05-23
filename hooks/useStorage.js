@@ -37,9 +37,37 @@ const useStorage = (file) => {
   return { progress, url, error };
 };
 
+const saveToCloudLink = async (file) =>{
+  const storageref = projectStorage.ref();
+  let path = 'user1/'+file.name
+  const fileRef = storageref.child(path)
+    const collectionRef = projectFirestore.collection("files");
+
+    await fileRef.put(file);
+
+    const url = await fileRef.getDownloadURL();
+    console.log(url);
+    return url;
+    // storageref.put(file).on(
+    //   "state_changed",
+    //   (snap) => {
+    //     let percentage = (snap.bytesTransferred / snap.totalBytes) * 100;
+    //     setProgress(percentage);
+    //   },
+    //   (err) => {
+    //     setError(err);
+    //   },
+    //   async () => {
+    //     const url = await storageref.getDownloadURL();
+    //     collectionRef.add({ url, createdAt: timestamp() });
+    //     setUrl(url);
+    //   }
+    // );
+}
+
 const saveOcrFirebase = (data) => {
   const collectionRef = projectFirestore.collection("files");
   collectionRef.add({ data, createdAt: timestamp() });
 };
 
-export { useStorage, saveOcrFirebase };
+export { useStorage, saveOcrFirebase,saveToCloudLink };

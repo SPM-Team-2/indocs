@@ -21,17 +21,13 @@ const getOCR = async (images) => {
   for (let i = 0; i < imgArray.length; i++) {
     await worker.initialize("eng");
     const img = imgArray[i];
-    console.log("hey", img);
-    await console.log("hello");
-    const {
-      data: { text },
-    } = await worker.recognize(img);
+
+    const {data: { text },} = await worker.recognize(img);
     console.log(text);
     await pages.push(text);
     // console.log(pages);
   }
   await worker.terminate();
-
 
   console.log(pages);
 
