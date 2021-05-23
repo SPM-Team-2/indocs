@@ -1,7 +1,7 @@
 import { useStoreActions, useStoreState } from "easy-peasy";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import Close from "../assets/close";
+import Close from "../assets/close-icon";
 import LeftArrowIcon from "../assets/left-arrow";
 import EmptyGalleryIcon from "../assets/empty-gallery-icon";
 import generatePdf from "../utils/generatePdf";
@@ -23,7 +23,7 @@ import { useUser } from "../Handlers/useUser";
 import { useRouter } from "next/router";
 import OcrIcon from "../assets/ocr-icon";
 import DeleteIcon from "../assets/delete";
-import EditIcon from "../assets/edit";
+import EditIcon from "../assets/edit-icon";
 import DocumentIcon from "../assets/document";
 
 // import { Jimage } from "react-jimp";
