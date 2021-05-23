@@ -21,6 +21,10 @@ import { saveOcrFirebase } from "../hooks/useStorage";
 import WhatsappLogo from "../assets/whatsapp-logo";
 import { useUser } from "../Handlers/useUser";
 import { useRouter } from "next/router";
+import OcrIcon from "../assets/ocr-icon";
+import DeleteIcon from "../assets/delete";
+import EditIcon from "../assets/edit";
+import DocumentIcon from "../assets/document";
 
 // import { Jimage } from "react-jimp";
 
@@ -219,45 +223,61 @@ const Gallery = () => {
 
           {/* BUTTONS */}
           {!isEditing && (
-            <div className="flex justify-center">
+            <div className="grid grid-cols-4 grid-rows-1 justify-items-center">
               {images.length > 0 && (
                 <>
                   <button
                     key="pdf"
-                    className="text-white border-2 border-white m-3 p-1"
+                    className="text-white rounded-lg m-3 p-1 border-l-2 border-r-2 border-white font-nunito text-sm"
+                    // style={{
+                    //   backgroundColor: 'rgb(31, 41, 55)'
+                    // }}
                     onClick={handleGeneratePdfFromImages}
                   >
-                    Pdf
+                    <DocumentIcon width={'4rem'} height={"2rem"} />
+                    <div className="mt-1">Pdf</div>
                   </button>
                   <button
                     key="pdfocr"
-                    className="text-white border-2 border-white m-3 p-1"
+                    className="text-white m-3 rounded-lg p-1 border-l-2 border-r-2 border-white font-nunito text-sm"
+                    // style={{
+                    //   backgroundColor: 'rgb(31, 41, 55)'
+                    // }}
                     onClick={handleGeneratePdfFromImages}
                   >
-                    Pdf + OCR
+                    <OcrIcon width={'4rem'} height={"2rem"} />
+                    <div className="mt-1">Pdf+OCR</div>
                   </button>
                 </>
               )}
               <button
-                className="text-white border-2 border-white m-3 p-1"
+                className="text-white m-3 p-1 rounded-lg border-l-2 border-r-2 border-white font-nunito text-sm" 
+                // style={{
+                //   backgroundColor: 'rgb(31, 41, 55)'
+                // }}
                 onClick={() => removeImage(activeSlide)}
               >
-                Delete
+                <DeleteIcon width={'4rem'} height={"2rem"} />
+                <div className="mt-1">Delete</div>
                 {/* <Close imageIndex={index} /> */}
               </button>
               <button
-                className="text-white border-2 border-white m-3 p-1"
+                className="text-white rounded-lg m-3 p-1 border-l-2 border-r-2 border-white font-nunito text-sm"
+                // style={{
+                //   backgroundColor: 'rgb(31, 41, 55)'
+                // }}
                 onClick={() => {
-                  router.push({
-                    pathname: "/edit",
-                    query: {
-                      activeSlide: activeSlide,
-                    },
-                  });
-                  // setIsEditing(true);
+                  // router.push({
+                  //   pathname: "/edit",
+                  //   query: {
+                  //     activeSlide: activeSlide,
+                  //   },
+                  // });
+                  setIsEditing(true);
                 }}
               >
-                Edit
+                <EditIcon width={'4rem'} height={"2rem"} />
+                <div className="mt-1">Edit</div>
                 {/* <Close imageIndex={index} /> */}
               </button>
             </div>
