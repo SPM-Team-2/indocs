@@ -1,0 +1,135 @@
+.container {
+    /* width: 100%;
+    height: 500px; */
+    background-color: #1c3c58;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    touch-action: none;
+    
+    left: 50%;
+    transform: translateX(-50%);
+
+    position: relative;
+    width: 95%;
+    height: 500px;
+}
+  
+.controlPoint {
+    width: 30px;
+    height: 30px;
+    background: transparent;
+    border-radius: 2px;
+    touch-action: none;
+    user-select: none;
+    cursor: pointer;
+}
+  
+.controlPoint:active{
+    background-color: rgba(168, 218, 220, 0.1);
+}
+  
+.top-left {
+    border-top: 4px solid white;
+    border-left: 4px solid white;
+}
+  
+.top-right {
+    border-top: 4px solid white;
+    border-right: 4px solid white;
+}
+.bottom-right {
+    border-bottom: 4px solid white;
+    border-right: 4px solid white;
+}
+.bottom-left {
+    border-bottom: 4px solid white;
+    border-left: 4px solid white;
+}
+  
+.btn {
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
+    min-width: 130px;
+    text-align: center;
+    text-decoration: none;
+    padding: 10px 20px;
+    text-transform: uppercase;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    -webkit-transition-duration: 0.3s;
+    transition-duration: 0.3s;
+    -webkit-transition-property: box-shadow, transform;
+    transition-property: box-shadow, transform;
+  
+}
+  
+.btn:hover, .btn:focus, .btn:active{
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    -webkit-transform: scale(1.2);
+    transform: scale(1.2);
+}
+  
+.green{
+    background-color: #0bda51;
+}
+  
+.blue{
+    background: #1E90FF;
+}
+.red {
+    background: #CA3433;
+}
+  
+.button_container{
+    margin: 20px 0;
+}
+  
+.editPage{
+    padding: 50px 10px 10px 10px;
+}
+  
+.exit{
+    color: white;
+    font-size: 17px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid;
+    background-color: #1c3c58;
+    height: 30px;
+    width: 30px;
+    text-align: center;
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin: 10px;
+    border-radius: 100%;
+    cursor: pointer;
+    z-index: 100;
+}
+
+.flex{
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.stackModel{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.moreZIndex{
+    z-index: 10;
+}
+
+.wrapperContainer{
+    position: relative;
+}

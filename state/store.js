@@ -1,15 +1,29 @@
-import { action, createStore } from "easy-peasy";
+import { action, createStore, persist } from "easy-peasy";
 
-const store = createStore({
-  images: [],
-  addImage: action((state, payload) => {
-    state.images.push(payload);
-  }),
-  removeImage: action((state, payload) => {
-    console.log("removed element", payload);
-    // console.log(state.images.splice(payload, 1));
-    state.images.splice(payload, 1);
-  }),
-});
+const store = createStore(
+  persist({
+    // {
+    // * STATE
+    images: [],
+
+    // * ACTIONS
+    addImage: action((state, payload) => {
+      state.images.push(payload);
+    }),
+    addImageArray: action((state, payload) => {
+      state.images.push(...payload);
+    }),
+    removeImage: action((state, payload) => {
+      state.images.splice(payload, 1);
+    }),
+    removeAllImages: action((state) => {
+      state.images = [];
+    }),
+    replaceImage: action((state, { activeSlide, url }) => {
+      state.images[activeSlide] = { ...state.images[activeSlide], src: url };
+    }),
+    // }
+  })
+);
 
 export default store;
