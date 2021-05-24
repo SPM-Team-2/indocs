@@ -19,6 +19,12 @@ function Screen3() {
           line2="Progressive Web App (PWA)"
           line3="Light on resources"
         />
+        <Block
+          background="bg-green-600"
+          bigText="Share"
+          line2="Through URL or directly"
+          line3="Goodbye 'saving to device first'"
+        />
         <Link href="./scanner">
           <button className="p-3 bg-blue-600 border-2 border-slightWhite mt-5 w-1/2 max-w-xs rounded-lg z-10">
             Open Scanner

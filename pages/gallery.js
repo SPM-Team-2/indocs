@@ -5,7 +5,7 @@ import Close from "../assets/close-icon";
 import LeftArrowIcon from "../assets/left-arrow";
 import EmptyGalleryIcon from "../assets/empty-gallery-icon";
 import generatePdf from "../utils/generatePdf";
-import { createRef, useEffect, useRef, useState } from "react";
+import { createRef, useRef, useState } from "react";
 import PdfDoneIcon from "../assets/pdf-done-icon";
 // Import Swiper React components
 import SwiperCore, { Navigation, Thumbs } from "swiper/core";
@@ -17,11 +17,7 @@ import "swiper/components/thumbs/thumbs.min.css";
 import FilterSlider from "../components/filterSlider";
 import ImageFilters from "canvas-filters";
 import getOCR from "../utils/getOCR";
-import {
-  saveOcrFirebase,
-  useStorage,
-  saveToCloudLink,
-} from "../hooks/useStorage";
+import { saveOcrFirebase, saveToCloudLink } from "../hooks/useStorage";
 import WhatsappLogo from "../assets/whatsapp-logo";
 import { useUser } from "../Handlers/useUser";
 import { useRouter } from "next/router";
@@ -30,6 +26,8 @@ import OcrIcon from "../assets/ocr-icon";
 import DeleteIcon from "../assets/delete-icon";
 import EditIcon from "../assets/edit-icon";
 import DocumentIcon from "../assets/document-icon";
+import LoadingCircle from "../assets/loading-circle";
+import TickIcon from "../assets/tick-icon.js";
 
 // import { Jimage } from "react-jimp";
 
@@ -56,6 +54,8 @@ const Gallery = () => {
   const imageRefs = useRef([]);
   const [pdfRes, setPdfRes] = useState();
   const [modal, setModal] = useState(false);
+  const [isCopied, setCopied] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   if (imageRefs.current.length !== images.length) {
     // add or remove refs
@@ -87,13 +87,14 @@ const Gallery = () => {
     window.open(pdfRes.pdfURL, "_blank");
   };
 
-  const saveToCloud = async (file) => {
+  const saveToCloud = async (file, setCopied) => {
     console.log("hello from the func");
     console.log(file);
     const url = await saveToCloudLink(file);
     console.log(url);
     let short_url = await bitlyURL(url);
     await navigator.clipboard.writeText(short_url);
+    setCopied(true);
     console.log(short_url);
   };
 
@@ -248,7 +249,7 @@ const Gallery = () => {
                     // }}
                     onClick={handleGeneratePdfFromImages}
                   >
-                    <DocumentIcon width={'4rem'} height={"2rem"} />
+                    <DocumentIcon width={"4rem"} height={"2rem"} />
                     <div className="mt-1">Pdf</div>
                   </button>
                   <button
@@ -259,19 +260,19 @@ const Gallery = () => {
                     // }}
                     onClick={handleGeneratePdfFromImages}
                   >
-                    <OcrIcon width={'4rem'} height={"2rem"} />
+                    <OcrIcon width={"4rem"} height={"2rem"} />
                     <div className="mt-1">Pdf+OCR</div>
                   </button>
                 </>
               )}
               <button
-                className="text-white m-3 p-1 rounded-lg border-l-2 border-r-2 border-white font-nunito text-sm" 
+                className="text-white m-3 p-1 rounded-lg border-l-2 border-r-2 border-white font-nunito text-sm"
                 // style={{
                 //   backgroundColor: 'rgb(31, 41, 55)'
                 // }}
                 onClick={() => removeImage(activeSlide)}
               >
-                <DeleteIcon width={'4rem'} height={"2rem"} />
+                <DeleteIcon width={"4rem"} height={"2rem"} />
                 <div className="mt-1">Delete</div>
                 {/* <Close imageIndex={index} /> */}
               </button>
@@ -290,7 +291,7 @@ const Gallery = () => {
                   setIsEditing(true);
                 }}
               >
-                <EditIcon width={'4rem'} height={"2rem"} />
+                <EditIcon width={"4rem"} height={"2rem"} />
                 <div className="mt-1">Edit</div>
                 {/* <Close imageIndex={index} /> */}
               </button>
@@ -330,7 +331,7 @@ const Gallery = () => {
         </motion.div>
       ) : (
         <div
-          className="h-[90vh] w-screen flex justify-center items-center flex-col"
+          className="absolute h-[90vh] w-screen flex justify-center items-center flex-col"
           style={{
             position: "absolute",
             top: "10%",
@@ -386,9 +387,12 @@ const Gallery = () => {
                   transition={{
                     duration: 0.7,
                   }}
-                  onClick={() =>
-                    !!user ? saveToCloud(pdfRes.pdfFile) : setModal(true)
-                  }
+                  onClick={() => {
+                    if (!!user) {
+                      setIsLoading(true);
+                      saveToCloud(pdfRes.pdfFile, setCopied);
+                    } else setModal(true);
+                  }}
                 >
                   Copy URL
                 </motion.button>
@@ -399,6 +403,15 @@ const Gallery = () => {
                 >
                   Download PDF
                 </button>
+                {!isCopied ? (
+                  isLoading && (
+                    <LoadingCircle />
+                  )
+                ) : (
+                  <div className="w-5 h-5 relative left-[120%] -top-1/2">
+                    <TickIcon />
+                  </div>
+                )}
               </div>
             </>
           ) : (
