@@ -79,9 +79,12 @@ const Gallery = () => {
         })
         .then((big_url) => {
           console.log(big_url);
-          return bitlyURL(big_url);
+          return createShareURL(big_url);
         })
-        .then((short_url) => setShort_URL(short_url))
+        .then((short_url) => {
+          console.log(short_url);
+          setShort_URL(short_url);
+        })
         .catch((error) => {
           console.log(error);
         });
@@ -119,7 +122,7 @@ const Gallery = () => {
 
   const shareToOtherApps = async () => {
     console.log("Sup");
-    let indocs_url = "https://indocs.vercel.com"
+    let indocs_url = "https://indocs.vercel.com";
     const shareData = {
       title: "Indocs Document Share",
       text: `${user.name} is sharing a document with you!!! \n Start using InDocs today at ${indocs_url}`,
