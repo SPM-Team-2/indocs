@@ -53,6 +53,8 @@ const Gallery = () => {
   const [modal, setModal] = useState(false);
   const [isCopied, setCopied] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [url, setURL] = useState("");
+  const [shorturl, setShort_URL] = useState("");
 
   if (imageRefs.current.length !== images.length) {
     // add or remove refs
@@ -61,10 +63,30 @@ const Gallery = () => {
       .map((_, i) => imageRefs.current[i] || createRef());
   }
 
-  const handleGeneratePdfFromImages = () => {
+  const handleGeneratePdfFromImages = async () => {
     const { pdfFile, pdfURL } = generatePdf(images);
     setPdfRes({ pdfFile, pdfURL });
+    console.log(pdfRes);
     setPdfGenrated(true);
+    if (user) {
+      saveToCloudLink(pdfFile)
+        .then((big_url) => {
+          setURL(big_url);
+          return big_url;
+        })
+        .then((big_url) => {
+          console.log(big_url);
+          return bitlyURL(big_url);
+        })
+        .then((short_url) => setShort_URL(short_url))
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      setURL("fakeUser");
+    }
+    // let big_url = await saveToCloudLink(pdfFile);
+    // setURL(big_url);
     cleanUpUploadedImages();
   };
 
@@ -85,14 +107,27 @@ const Gallery = () => {
   };
 
   const saveToCloud = async (file, setCopied) => {
-    console.log("hello from the func");
-    console.log(file);
-    const url = await saveToCloudLink(file);
-    console.log(url);
-    let short_url = await bitlyURL(url);
-    await navigator.clipboard.writeText(short_url);
-    setCopied(true);
-    console.log(short_url);
+    console.log(shorturl);
+    if (shorturl) {
+      await navigator.clipboard.writeText(shorturl);
+      setCopied(true);
+    }
+  };
+
+  const shareToOtherApps = async () => {
+    console.log("Sup");
+    let indocs_url = "https://indocs.vercel.com"
+    const shareData = {
+      title: "Indocs Document Share",
+      text: `${user.name} is sharing a document with you!!! \n Start using InDocs today at ${indocs_url}`,
+      url: shorturl,
+    };
+    try {
+      await navigator.share(shareData);
+      console.log("MDN shared successfully");
+    } catch (err) {
+      console.log("Error: " + err);
+    }
   };
 
   const handleOCR = async () => {
@@ -255,7 +290,7 @@ const Gallery = () => {
                     // style={{
                     //   backgroundColor: 'rgb(31, 41, 55)'
                     // }}
-                    onClick={handleGeneratePdfFromImages}
+                    onClick={handleOCR}
                   >
                     <OcrIcon width={"4rem"} height={"2rem"} />
                     <div className="mt-1">Pdf+OCR</div>
@@ -336,80 +371,87 @@ const Gallery = () => {
         >
           {pdfGenerated ? (
             <>
-              <PdfDoneIcon />
+              {url ? <PdfDoneIcon /> : ""}
+
               <div className="text-gray-300 text-center mt-3 px-3 sm:text-lg text-sm overflow-visible">
-                <span className="text-xl font-bold">Done!</span>
-                <br /> <div className="my-3">
-                  Your pdf is generated
-                </div> <br />{" "}
+                <span className="text-xl font-bold">
+                  {!url ? "Creating PDF" : "Done!"}
+                </span>
+                <br />
+                <div className="my-3">
+                  {!url
+                    ? "Your PDF is being generated, Please wait..."
+                    : "Your pdf has been generated"}
+                </div>{" "}
+                <br />{" "}
               </div>
               {modal && (
                 <div className="text-red-400">
                   You need to login to use this feature
                 </div>
               )}
-              <div className="flex flex-col">
-                <motion.button
-                  className="border-white border-2 bg-[#4CAF50] rounded-lg p-2 text-white my-2"
-                  initial={{
-                    opacity: 1,
-                  }}
-                  animate={{
-                    opacity: !!user ? 1 : 0.2,
-                  }}
-                  transition={{
-                    duration: 0.7,
-                  }}
-                  onClick={() =>
-                    !!user
-                      ? console.log("Share on whatapp") // shareToOtherApps()
-                      : setModal(true)
-                  }
-                >
-                  <div className="flex justify-evenly">
-                    <div>Share on</div>
-                    <div className="h-[100%] w-[20%] mt-1">
-                      <WhatsappLogo />
+              {url ? (
+                <div className="flex flex-col">
+                  <motion.button
+                    className="border-white border-2 bg-[#4CAF50] rounded-lg p-2 text-white my-2"
+                    initial={{
+                      opacity: 1,
+                    }}
+                    animate={{
+                      opacity: !!user ? 1 : 0.2,
+                    }}
+                    transition={{
+                      duration: 0.7,
+                    }}
+                    onClick={() =>
+                      !!user ? shareToOtherApps() : setModal(true)
+                    }
+                  >
+                    <div className="flex justify-evenly">
+                      <div>Share on</div>
+                      <div className="h-[100%] w-[20%] mt-1">
+                        <WhatsappLogo />
+                      </div>
                     </div>
-                  </div>
-                </motion.button>
-                <motion.button
-                  className="border-white border-2 bg-red-500 rounded-lg p-2 text-white my-2"
-                  initial={{
-                    opacity: 1,
-                  }}
-                  animate={{
-                    opacity: !!user ? 1 : 0.2,
-                  }}
-                  transition={{
-                    duration: 0.7,
-                  }}
-                  onClick={() => {
-                    if (!!user) {
-                      setIsLoading(true);
-                      saveToCloud(pdfRes.pdfFile, setCopied);
-                    } else setModal(true);
-                  }}
-                >
-                  Copy URL
-                </motion.button>
-                <button
-                  id="download"
-                  onClick={handlePdfShare}
-                  className="border-white border-2 bg-primary rounded-lg p-2 text-white my-2"
-                >
-                  Download PDF
-                </button>
-                {!isCopied ? (
-                  isLoading && (
-                    <LoadingCircle />
-                  )
-                ) : (
-                  <div className="w-5 h-5 relative left-[120%] -top-1/2">
-                    <TickIcon />
-                  </div>
-                )}
-              </div>
+                  </motion.button>
+                  <motion.button
+                    className="border-white border-2 bg-red-500 rounded-lg p-2 text-white my-2"
+                    initial={{
+                      opacity: 1,
+                    }}
+                    animate={{
+                      opacity: !!user ? 1 : 0.2,
+                    }}
+                    transition={{
+                      duration: 0.7,
+                    }}
+                    onClick={() => {
+                      if (!!user) {
+                        setIsLoading(true);
+                        saveToCloud(pdfRes.pdfFile, setCopied);
+                      } else setModal(true);
+                    }}
+                  >
+                    Copy URL
+                  </motion.button>
+                  <button
+                    id="download"
+                    onClick={handlePdfShare}
+                    className="border-white border-2 bg-primary rounded-lg p-2 text-white my-2"
+                  >
+                    Download PDF
+                  </button>
+                  {!isCopied ? (
+                    isLoading && <LoadingCircle />
+                  ) : (
+                    <div className="w-5 h-5 relative left-[120%] -top-1/2">
+                      <TickIcon />
+                    </div>
+                  )}
+                </div>
+              ) : (
+                ""
+              )}
             </>
           ) : (
             <>
