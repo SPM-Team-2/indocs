@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import UploadIcon from "../assets/upload";
 import { getMedia, resizeCanvas } from "../utils/camera-functions";
 import useBlobImage from "../utils/blob";
-import { returnControlPoints, scanImage } from "../utils/image-processing";
+import { returnControlPoints, scanImage, jimpThreshold } from "../utils/image-processing";
 import { useRouter } from 'next/router'
 
 const Camera = () => {
@@ -32,7 +32,7 @@ const Camera = () => {
     const photo = photoRef.current;
     const context = canvas.getContext("2d");
 
-    resizeCanvas(canvas, video.videoWidth,video.videoHeight);
+    resizeCanvas(canvas, video.videoWidth, video.videoHeight);
 
     if (video.videoWidth) {
       context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
@@ -89,14 +89,14 @@ const Camera = () => {
     const fileToImagePromises = fileArray.map(fileToImageURL);
     Promise.all(fileToImagePromises).then((res) => {
       res.map((image) => {
-        
+
         let imageHeight = image.naturalWidth
         let imageWidth = image.naturalWidth
 
         const canvas = canvasRef.current;
         const context = canvas.getContext("2d");
 
-        resizeCanvas(canvas,imageWidth,imageHeight)
+        resizeCanvas(canvas, imageWidth, imageHeight)
 
         let base_image = new Image();
         base_image.src = image.src;
@@ -104,11 +104,25 @@ const Camera = () => {
           context.drawImage(base_image, 0, 0, imageWidth, imageHeight);
         }
 
-        let ar = returnControlPoints(canvas,imageHeight)
+        let ar = returnControlPoints(canvas, imageHeight)
         const imgMat = scanImage(canvas, ar);
         console.log(ar)
         cv.imshow(canvas, imgMat);
-        toBlob(canvas, photoRef.current, imageWidth, imageHeight);
+        
+        // Jimp stuff
+        jimpThreshold(base_image.src).then((img) => {
+          console.log(img)
+          // console.log(new ImageData(img.bitmap.data,img.bitmap.width))
+          // context.putImageData(,0,0)
+          // context.fillStyle = context.createPattern(img.bitmap, "repeat");
+          // context.fillRect(0, 0, img.bitmap.imageWidth, img.bitmap.height);
+
+          toBlob(canvas, photoRef.current, imageWidth, imageHeight);
+          // console.log(img.bitmap.data)
+        })
+
+        
+        
 
       }
       );

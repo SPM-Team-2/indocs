@@ -227,10 +227,10 @@
   resolved "https://registry.yarnpkg.com/@firebase/auth-types/-/auth-types-0.10.3.tgz#2be7dd93959c8f5304c63e09e98718e103464d8c"
   integrity sha512-zExrThRqyqGUbXOFrH/sowuh2rRtfKHp9SBVY2vOqKWdCX1Ztn682n9WLtlUDsiYVIbBcwautYWk2HyCGFv0OA==
 
-"@firebase/auth@0.16.5":
-  version "0.16.5"
-  resolved "https://registry.yarnpkg.com/@firebase/auth/-/auth-0.16.5.tgz#703a9f1208e14fa0801798bd926c4a8f59fc97c4"
-  integrity sha512-Cgs/TlVot2QkbJyEphvKmu+2qxYlNN+Q2+29aqZwryrnn1eLwlC7nT89K6O91/744HJRtiThm02bMj2Wh61E3Q==
+"@firebase/auth@0.16.6":
+  version "0.16.6"
+  resolved "https://registry.yarnpkg.com/@firebase/auth/-/auth-0.16.6.tgz#0fc7a11561b939865fd486cd1909a3e81742fd82"
+  integrity sha512-1Lj3AY40Z2weCK6FuJqUEkeVJpRaaCo1LT6P5s3VIR99PDYLHeMm2m02rBaskE7ralJA975Vkv7sHrpykRfDrA==
   dependencies:
     "@firebase/auth-types" "0.10.3"
 
@@ -267,10 +267,10 @@
   resolved "https://registry.yarnpkg.com/@firebase/firestore-types/-/firestore-types-2.3.0.tgz#baf5c9470ba8be96bf0d76b83b413f03104cf565"
   integrity sha512-QTW7NP7nDL0pgT/X53lyj+mIMh4nRQBBTBlRNQBt7eSyeqBf3ag3bxdQhCg358+5KbjYTC2/O6QtX9DlJZmh1A==
 
-"@firebase/firestore@2.3.0":
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/@firebase/firestore/-/firestore-2.3.0.tgz#704734eaf7b3e454dd55e0fee2c02625adaeb6c7"
-  integrity sha512-0RXEPVODLDYfAvt3wJaxXnDKFaO29OFCMpQ0s5rVjvYKs5ijpzf/FYu78i10HVYoDbjh8ZaZT+EVoxUNZiFq1w==
+"@firebase/firestore@2.3.1":
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/@firebase/firestore/-/firestore-2.3.1.tgz#b0c3ff842b4b11e9888cada6e9b421eb9797c5c3"
+  integrity sha512-8xQB8o8OmmecXLWwGUbH2V2GifsR3hh/HBgcS0i6OyMYcXb3guZiX6dSbBlSDkak13NNxlSo7R6168aKB/8x7g==
   dependencies:
     "@firebase/component" "0.5.0"
     "@firebase/firestore-types" "2.3.0"
@@ -287,10 +287,10 @@
   resolved "https://registry.yarnpkg.com/@firebase/functions-types/-/functions-types-0.4.0.tgz#0b789f4fe9a9c0b987606c4da10139345b40f6b9"
   integrity sha512-3KElyO3887HNxtxNF1ytGFrNmqD+hheqjwmT3sI09FaDCuaxGbOnsXAXH2eQ049XRXw9YQpHMgYws/aUNgXVyQ==
 
-"@firebase/functions@0.6.8":
-  version "0.6.8"
-  resolved "https://registry.yarnpkg.com/@firebase/functions/-/functions-0.6.8.tgz#b89aa7e924278598858ed53f69b3f55daadc1d0e"
-  integrity sha512-Dttm53M6z31X6RfPPPMR4tkxSEIdIEcPmxEzABIdIjecSWuRpnDbEX3EmaTxjyRBn1g5TCAIsaEpGM17xh4UHw==
+"@firebase/functions@0.6.9":
+  version "0.6.9"
+  resolved "https://registry.yarnpkg.com/@firebase/functions/-/functions-0.6.9.tgz#6e38c9aa411949d8697bf662bb8da8a0837addae"
+  integrity sha512-WgrT3EG+O70pYpX2KQM2S2Is2WJbKE6XImoloMglIqiaquOCXNR9LUVbGPWQr7qEqY+QojfTgF/bGH0awqm2KA==
   dependencies:
     "@firebase/component" "0.5.0"
     "@firebase/functions-types" "0.4.0"
@@ -429,9 +429,9 @@
     teeny-request "^7.0.0"
 
 "@google-cloud/firestore@^4.5.0":
-  version "4.11.1"
-  resolved "https://registry.yarnpkg.com/@google-cloud/firestore/-/firestore-4.11.1.tgz#03e12e5721383165efc09e208143378f3ea681d6"
-  integrity sha512-iNsCGYwKBxYZS+TpkUAJLGkGko2QtWaf11JDNx6kvqOVN0359qSnZlF1SWFTvm26ZsKyX6uR4oAiFmmjfXTlCg==
+  version "4.12.0"
+  resolved "https://registry.yarnpkg.com/@google-cloud/firestore/-/firestore-4.12.0.tgz#52d36eb1621387cc9b7291f93162fa38e58fb016"
+  integrity sha512-0xB0frnMNllInoqhvCBhuFJsslcD5/oTDyBc0QzoEW8QzH6RxneSjTxDRXQAH9q9+FxcvGjJA4WiffjptU4q/w==
   dependencies:
     fast-deep-equal "^3.1.1"
     functional-red-black-tree "^1.0.1"
@@ -717,9 +717,9 @@
   integrity sha512-YATxVxgRqNH6nHEIsvg6k2Boc1JHI9ZbH5iWFFv/MTkchz3b1ieGDa5T0a9RznNdI0KhVbdbWSN+KWWrQZRxTw==
 
 "@types/node@*", "@types/node@>=12.12.47", "@types/node@>=13.7.0":
-  version "15.3.1"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-15.3.1.tgz#23a06b87eedb524016616e886b116b8fdcb180af"
-  integrity sha512-weaeiP4UF4XgF++3rpQhpIJWsCTS4QJw5gvBhQu6cFIxTwyxWIe3xbnrY/o2lTCQ0lsdb8YIUDUvLR4Vuz5rbw==
+  version "15.6.0"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-15.6.0.tgz#f0ddca5a61e52627c9dcb771a6039d44694597bc"
+  integrity sha512-gCYSfQpy+LYhOFTKAeE8BkyGqaxmlFxe+n4DKM6DR0wzw/HISUE/hAmkC/KT8Sw5PCJblqg062b3z9gucv3k0A==
 
 "@types/parse-json@^4.0.0":
   version "4.0.0"
@@ -1593,9 +1593,9 @@ ecdsa-sig-formatter@1.0.11, ecdsa-sig-formatter@^1.0.11:
     safe-buffer "^5.0.1"
 
 electron-to-chromium@^1.3.723:
-  version "1.3.734"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.734.tgz#c8d318a4eb27509190cf3a08870dbcbf06c74dcb"
-  integrity sha512-iQF2mjPZ6zNNq45kbJ6MYZYCBNdv2JpGiJC/lVx4tGJWi9MNg73KkL9sWGN4X4I/CP2SBLWsT8nPADZZpAHIyw==
+  version "1.3.735"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.735.tgz#fa1a8660f2790662291cb2136f0e446a444cdfdc"
+  integrity sha512-cp7MWzC3NseUJV2FJFgaiesdrS+A8ZUjX5fLAxdRlcaPDkaPGFplX930S5vf84yqDp4LjuLdKouWuVOTwUfqHQ==
 
 elliptic@^6.5.3:
   version "6.5.4"
@@ -1822,18 +1822,18 @@ firebase-admin@^9.8.0:
     "@google-cloud/storage" "^5.3.0"
 
 firebase@^8.6.1:
-  version "8.6.1"
-  resolved "https://registry.yarnpkg.com/firebase/-/firebase-8.6.1.tgz#6f0362ad35ce95af5758a49ecea9c33c9c9a8869"
-  integrity sha512-10eQ6RPUl71s68f+d2SsfPP0rHCTHqsZpt0xMg0RvWf3fqx5PlnJrItSrfWxZEuRgawJSkiPybpf+Q/LfluFLA==
+  version "8.6.2"
+  resolved "https://registry.yarnpkg.com/firebase/-/firebase-8.6.2.tgz#af39d19cc9bbab2442b5ae3181c29c1e76a5c804"
+  integrity sha512-U2FCBZ1D8qYfuSQ0SN0dGw59x08v5mHnYtDJiUMCoulbA2psk8AqmCT/aqJz8FDTQB87iPbAxGRXVnAozagM1Q==
   dependencies:
     "@firebase/analytics" "0.6.10"
     "@firebase/app" "0.6.22"
     "@firebase/app-check" "0.1.1"
     "@firebase/app-types" "0.6.2"
-    "@firebase/auth" "0.16.5"
+    "@firebase/auth" "0.16.6"
     "@firebase/database" "0.10.1"
-    "@firebase/firestore" "2.3.0"
-    "@firebase/functions" "0.6.8"
+    "@firebase/firestore" "2.3.1"
+    "@firebase/functions" "0.6.9"
     "@firebase/installations" "0.4.26"
     "@firebase/messaging" "0.7.10"
     "@firebase/performance" "0.4.12"
@@ -1856,9 +1856,9 @@ foreach@^2.0.5:
   integrity sha1-C+4AUBiusmDQo6865ljdATbsG5k=
 
 fraction.js@^4.0.13:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/fraction.js/-/fraction.js-4.1.0.tgz#229ec1cedc8c3c7e5d2d20688ba64f0a43af5830"
-  integrity sha512-o9lSKpK0TDqDwTL24Hxqi6I99s942l6TYkfl6WvGWgLOIFz/YonSGKfiSeMadoiNvTfqnfOa9mjb5SGVbBK9/w==
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/fraction.js/-/fraction.js-4.1.1.tgz#ac4e520473dae67012d618aab91eda09bcb400ff"
+  integrity sha512-MHOhvvxHTfRFpF1geTK9czMIZ6xclsEor2wkIGYYq+PxcQqT7vStJqjhe6S1TenZrMZzo+wlqOufBDVepUEgPg==
 
 framer-motion@^4.0.0:
   version "4.1.17"
@@ -2187,9 +2187,9 @@ iconv-lite@0.4.24:
     safer-buffer ">= 2.1.2 < 3"
 
 iconv-lite@^0.6.2:
-  version "0.6.2"
-  resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.6.2.tgz#ce13d1875b0c3a674bd6a04b7f76b01b1b6ded01"
-  integrity sha512-2y91h5OpQlolefMPmUlivelittSWy0rP+oYVpn6A7GwVHNE8AWzoYOBNmlwks3LobaJxgHCYZAnyNo2GgpNRNQ==
+  version "0.6.3"
+  resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.6.3.tgz#a52f80bf38da1952eb5c681790719871a1a72501"
+  integrity sha512-4fCk79wshMdzMp2rH06qWrJE4iolqLhCUH+OiuIgU++RB0+94NlDL81atO7GX55uUKueo0txHNtvEyI6D7WdMw==
   dependencies:
     safer-buffer ">= 2.1.2 < 3.0.0"
 
@@ -3005,11 +3005,6 @@ opencollective-postinstall@^2.0.2:
   resolved "https://registry.yarnpkg.com/opencollective-postinstall/-/opencollective-postinstall-2.0.3.tgz#7a0fff978f6dbfa4d006238fbac98ed4198c3259"
   integrity sha512-8AV/sCtuzUeTo8gQK5qDZzARrulB3egtLzFgteqB2tcT4Mw7B8Kt7JcDHmltjz6FOAHsvTevk70gZEbhM4ZS9Q==
 
-opencv.js@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/opencv.js/-/opencv.js-1.2.1.tgz#9e89fd669a749f80574ba5d4615a5ff3e3c09a16"
-  integrity sha512-+ji5Pk3eyz+RRSeZr2kLZNJpjsKoGyPJOjFWng7+Cuq9ylHakBqJMxDGlBW1+qdju3k8DadWOiHJ6JaF28UpKA==
-
 os-browserify@0.3.0, os-browserify@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/os-browserify/-/os-browserify-0.3.0.tgz#854373c7f5c2315914fc9bfc6bd8238fdda1ec27"
@@ -3131,9 +3126,9 @@ performance-now@^2.1.0:
   integrity sha1-Ywn04OX6kT7BxpMHrjZLSzd8nns=
 
 picomatch@^2.0.4, picomatch@^2.2.1, picomatch@^2.2.3:
-  version "2.2.3"
-  resolved "https://registry.yarnpkg.com/picomatch/-/picomatch-2.2.3.tgz#465547f359ccc206d3c48e46a1bcb89bf7ee619d"
-  integrity sha512-KpELjfwcCDUb9PeigTs2mBJzXUPzAuP2oPcA989He8Rte0+YUAjw1JVedDhuTKPkHjSYzMN3npC9luThGYEKdg==
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/picomatch/-/picomatch-2.3.0.tgz#f1f061de8f6a4bf022892e2d128234fb98302972"
+  integrity sha512-lY1Q/PiJGC2zOv/z391WOTD+Z02bCgsFfvxoXXf6h7kv9o+WmsmzYqrAwY63sNgOxE4xEdq0WyUnXfKeBrSvYw==
 
 piexifjs@^1.0.6:
   version "1.0.6"
@@ -3231,13 +3226,13 @@ postcss@^6.0.9:
     supports-color "^5.4.0"
 
 postcss@^8.1.6, postcss@^8.2.1, postcss@^8.2.10:
-  version "8.2.15"
-  resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.2.15.tgz#9e66ccf07292817d226fc315cbbf9bc148fbca65"
-  integrity sha512-2zO3b26eJD/8rb106Qu2o7Qgg52ND5HPjcyQiK2B98O388h43A448LCslC0dI2P97wCAQRJsFvwTRcXxTKds+Q==
+  version "8.3.0"
+  resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.3.0.tgz#b1a713f6172ca427e3f05ef1303de8b65683325f"
+  integrity sha512-+ogXpdAjWGa+fdYY5BQ96V/6tAo+TdSSIMP5huJBIygdWwKtVoB5JWZ7yUd4xZ8r+8Kvvx4nyg/PQ071H4UtcQ==
   dependencies:
     colorette "^1.2.2"
     nanoid "^3.1.23"
-    source-map "^0.6.1"
+    source-map-js "^0.6.2"
 
 pretty-hrtime@^1.0.3:
   version "1.0.3"
@@ -3631,6 +3626,11 @@ snakeize@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/snakeize/-/snakeize-0.1.0.tgz#10c088d8b58eb076b3229bb5a04e232ce126422d"
   integrity sha1-EMCI2LWOsHazIpu1oE4jLOEmQi0=
+
+source-map-js@^0.6.2:
+  version "0.6.2"
+  resolved "https://registry.yarnpkg.com/source-map-js/-/source-map-js-0.6.2.tgz#0bb5de631b41cfbda6cfba8bd05a80efdfd2385e"
+  integrity sha512-/3GptzWzu0+0MBQFrDKzw/DvvMTUORvgY6k6jd/VS6iCR4RDTKWH6v6WPwQoUO8667uQEf9Oe38DxAYWY5F/Ug==
 
 source-map@0.7.3:
   version "0.7.3"

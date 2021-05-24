@@ -20,6 +20,7 @@ class MyDocument extends Document {
             rel="stylesheet"
           ></link>
           <script async src="https://docs.opencv.org/master/opencv.js" type="text/javascript"></script>
+          <script src="https://unpkg.com/jimp@0.14.0/browser/lib/jimp.js"></script>
         </Head>
         <body>
           <Main />

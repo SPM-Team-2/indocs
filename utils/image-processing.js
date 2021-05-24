@@ -260,4 +260,10 @@ function adaptiveThreshold(image) {
   return dst;
 }
 
-export { returnControlPoints, scanImage };
+async function jimpThreshold(image){
+  const newImage = await jimp.read(image)
+  newImage.threshold({max:150})
+  return newImage
+}
+
+export { returnControlPoints, scanImage, jimpThreshold };
