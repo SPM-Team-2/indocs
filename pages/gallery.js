@@ -85,7 +85,7 @@ const Gallery = () => {
         .catch((error) => {
           console.log(error);
         });
-    }else{
+    } else {
       setURL("fakeUser");
     }
     // let big_url = await saveToCloudLink(pdfFile);
@@ -114,6 +114,22 @@ const Gallery = () => {
     if (shorturl) {
       await navigator.clipboard.writeText(shorturl);
       setCopied(true);
+    }
+  };
+
+  const shareToOtherApps = async () => {
+    console.log("Sup");
+    let indocs_url = "https://indocs.vercel.com"
+    const shareData = {
+      title: "Indocs Document Share",
+      text: `${user.name} is sharing a document with you!!! \n Start using InDocs today at ${indocs_url}`,
+      url: shorturl,
+    };
+    try {
+      await navigator.share(shareData);
+      console.log("MDN shared successfully");
+    } catch (err) {
+      console.log("Error: " + err);
     }
   };
 
@@ -377,7 +393,7 @@ const Gallery = () => {
                   You need to login to use this feature
                 </div>
               )}
-              {url  ? (
+              {url ? (
                 <div className="flex flex-col">
                   <motion.button
                     className="border-white border-2 bg-[#4CAF50] rounded-lg p-2 text-white my-2"
@@ -391,9 +407,7 @@ const Gallery = () => {
                       duration: 0.7,
                     }}
                     onClick={() =>
-                      !!user
-                        ? console.log("Share on whatapp") // shareToOtherApps()
-                        : setModal(true)
+                      !!user ? shareToOtherApps() : setModal(true)
                     }
                   >
                     <div className="flex justify-evenly">
