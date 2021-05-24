@@ -9,13 +9,13 @@ const useBlobImage = () => {
       const url = URL.createObjectURL(blob);
       photo?.setAttribute("src", url);
 
-
-      jimp.read(url).then((im)=>{
-        im.threshold({max:180}).getBase64('image/png',(err,res)=>{
+      jimp.read(url).then((im) => {
+        im.threshold({
+          max: 160,
+        }).getBase64("image/png", (err, res) => {
           addImage({ src: res, width: width, height: height });
-        })
-      })
-
+        });
+      });
     });
   };
   return { toBlob };
