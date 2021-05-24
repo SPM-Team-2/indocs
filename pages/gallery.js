@@ -8,7 +8,7 @@ import generatePdf from "../utils/generatePdf";
 import { createRef, useRef, useState } from "react";
 import PdfDoneIcon from "../assets/pdf-done-icon";
 // Import Swiper React components
-import SwiperCore, { Navigation, Thumbs } from "swiper/core";
+import SwiperCore, { Navigation, Thumbs, Pagination } from "swiper/core";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import "swiper/swiper.min.css";
@@ -29,14 +29,13 @@ import DocumentIcon from "../assets/document-icon";
 import LoadingCircle from "../assets/loading-circle";
 import TickIcon from "../assets/tick-icon.js";
 
-SwiperCore.use([Navigation, Thumbs]);
+SwiperCore.use([Navigation, Thumbs, Pagination]);
 
 const Gallery = () => {
   const canvasRef = useRef();
   const photoRef = useRef();
   const swiperRef = useRef();
 
-  const router = useRouter();
   const { images } = useStoreState((state) => state);
   const { removeImage, removeAllImages, replaceImage } = useStoreActions(
     (action) => action
