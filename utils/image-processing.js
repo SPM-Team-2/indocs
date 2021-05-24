@@ -260,12 +260,12 @@ function adaptiveThreshold(image) {
   return dst;
 }
 
-function jimpThreshold(image,mainImage){
-  jimp.read(image).then((im)=>{
-    im.threshold({max:150}).getBase64('image/png',(err,res)=>{
-      res;
-    })
-  })
-}
+// function jimpThreshold(image,mainImage){
+//   jimp.read(image).then((im)=>{
+//     im.threshold({max:150}).getBase64('image/png',(err,res)=>{
+//       res;
+//     })
+//   })
+// }
 
-export { returnControlPoints, scanImage, jimpThreshold };
+export { returnControlPoints, scanImage };

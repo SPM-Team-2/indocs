@@ -29,8 +29,6 @@ import DocumentIcon from "../assets/document-icon";
 import LoadingCircle from "../assets/loading-circle";
 import TickIcon from "../assets/tick-icon.js";
 
-// import { Jimage } from "react-jimp";
-
 SwiperCore.use([Navigation, Thumbs]);
 
 const Gallery = () => {
