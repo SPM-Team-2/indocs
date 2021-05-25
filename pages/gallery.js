@@ -122,12 +122,12 @@ const Gallery = () => {
     let indocs_url = "https://indocs.vercel.com";
     const shareData = {
       title: "Indocs Document Share",
-      text: `${user.name} is sharing a document with you!!! \n Start using InDocs today at ${indocs_url}`,
+      text: `${user.name} is sharing a document with you!!! \n Start using InDocs today at ${indocs_url} \n `,
       url: shorturl,
     };
     try {
       await navigator.share(shareData);
-      console.log("MDN shared successfully");
+      console.log("Doc shared successfully");
     } catch (err) {
       console.log("Error: " + err);
     }

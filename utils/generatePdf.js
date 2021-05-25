@@ -62,7 +62,7 @@ const generatePdf = (images) => {
 
     doc.addPage();
     doc.addImage(
-      image.src,
+      image.dataUrl,
       //   image.imageType,
       // Images are vertically and horizontally centered on the page.
       (A4_PAPER_DIMENSIONS.width - imageDimensions.width) / 2,

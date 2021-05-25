@@ -89,32 +89,32 @@ const Camera = () => {
     const fileToImagePromises = fileArray.map(fileToImageURL);
     Promise.all(fileToImagePromises).then((res) => {
       res.map((image) => {
-        addImage({
-          src: image.src,
-          width: image.naturalWidth,
-          height: image.naturalHeight,
-        });
-        // let imageHeight = image.naturalWidth;
-        // let imageWidth = image.naturalWidth;
+        // addImage({
+        //   src: image.src,
+        //   width: image.naturalWidth,
+        //   height: image.naturalHeight,
+        // });
+        let imageHeight = image.naturalWidth;
+        let imageWidth = image.naturalWidth;
 
-        // const canvas = canvasRef.current;
-        // const context = canvas.getContext("2d");
+        const canvas = canvasRef.current;
+        const context = canvas.getContext("2d");
 
-        // resizeCanvas(canvas, imageWidth, imageHeight);
+        resizeCanvas(canvas, imageWidth, imageHeight);
 
-        // let base_image = new Image();
-        // base_image.src = image.src;
+        let base_image = new Image();
+        base_image.src = image.src;
 
-        // if (imageWidth) {
-        //   context.drawImage(base_image, 0, 0, imageWidth, imageHeight);
-        // }
+        if (imageWidth) {
+          context.drawImage(base_image, 0, 0, imageWidth, imageHeight);
+        }
 
-        // let ar = returnControlPoints(canvas, imageHeight);
-        // const imgMat = scanImage(canvas, ar);
-        // console.log(ar);
-        // cv.imshow(canvas, imgMat);
+        let ar = returnControlPoints(canvas, imageHeight);
+        const imgMat = scanImage(canvas, ar);
+        console.log(ar);
+        cv.imshow(canvas, imgMat);
 
-        // toBlob(canvas, photoRef.current, imageWidth, imageHeight);
+        toBlob(canvas, photoRef.current, imageWidth, imageHeight);
       });
     });
   };
