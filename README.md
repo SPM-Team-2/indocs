@@ -2,7 +2,7 @@
 
 # :camera: InDocs :page_facing_up:
 
-_**Document Scanner App which runs in your browser**_
+_**A Document Scanner App which runs in your browser**_
 
 ## Introduction 
 
